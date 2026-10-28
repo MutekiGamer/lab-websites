@@ -1,0 +1,47 @@
+---
+import "@fontsource-variable/manrope";
+import "../styles/global.css";
+import ResearchNav from "../components/ResearchNav.astro";
+import { research } from "../data/research";
+import { localPath } from "../lib/paths";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Construction robotics research and AI products: Robotic Excavator and Walkscribe." />
+    <link rel="icon" href={localPath("research.svg")} type="image/svg+xml" />
+    <title>Research &amp; Products · Construction Robotics &amp; AI</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#projects">Skip to projects</a>
+    <ResearchNav current="all" />
+    <main class="research-index">
+      <header class="paper-header"><p class="project-name">Construction Robotics & AI</p><h1>Research &amp; products</h1><p class="venue">Robotic learning and intelligent assistance for construction.</p></header>
+      <div id="projects" class="project-list">
+        {research.map((project) => (
+          <article>
+            <a href={localPath(project.path)} tabindex="-1" aria-hidden="true"><img src={localPath(project.image)} alt="" width={project.imageWidth} height={project.imageHeight} /></a>
+            <div><h2><a href={localPath(project.path)}>{project.name}</a></h2><p class="project-subtitle">{project.subtitle}</p><p>{project.description}</p><a class="project-open" href={localPath(project.path)}>{project.id === "construction-agent" ? "View product →" : "View research →"}</a></div>
+          </article>
+        ))}
+      </div>
+    </main>
+    <footer><p>Research and product pages · <a href="https://github.com/RomanHauksson/academic-project-astro-template">Template</a> · <a href="https://nerfies.github.io/">Nerfies</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p></footer>
+  </body>
+</html>
+<style>
+  .research-index { min-height: calc(100dvh - 145px); }
+  .project-list { max-width: 1000px; padding: 0 28px 64px; margin: 0 auto; }
+  article { display: grid; grid-template-columns: 310px 1fr; align-items: center; gap: 40px; border-top: 1px solid var(--line); padding: 34px 0; }
+  article:last-child { border-bottom: 1px solid var(--line); }
+  article img { display: block; width: 100%; height: auto; border-radius: 3px; }
+  h2 { font-size: 25px; margin-bottom: 9px; }
+  h2 a { color: #29292d; text-decoration: none; }
+  h2 a:hover { color: var(--link); }
+  .project-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 13px; }
+  article p { font-size: 15px; line-height: 1.7; margin-bottom: 12px; }
+  .project-open { font-size: 14px; }
+  @media (max-width: 700px) { article { grid-template-columns: 1fr; gap: 24px; } article img { max-width: 440px; } .project-list { padding-inline: 22px; } }
+</style>

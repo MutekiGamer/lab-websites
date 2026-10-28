@@ -1,0 +1,46 @@
+---
+import { localPath } from "../lib/paths";
+
+interface Props {
+  file: string;
+  title: string;
+  autoplay?: boolean;
+}
+
+const { file, title, autoplay = true } = Astro.props;
+const captionId = `motion-${file}`;
+---
+<figure class="motion-figure">
+  <video
+    data-research-motion
+    autoplay={autoplay}
+    loop
+    muted
+    playsinline
+    controls
+    preload="metadata"
+    poster={localPath(`animations/${file}.jpg`)}
+    aria-labelledby={captionId}
+  >
+    <source src={localPath(`animations/${file}.mp4`)} type="video/mp4" />
+    <a href={localPath(`animations/${file}.mp4`)}>Watch {title.toLowerCase()}</a>
+  </video>
+  <figcaption id={captionId}>
+    <strong>{title}</strong>
+    <slot />
+  </figcaption>
+</figure>
+
+<script>
+  const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const respectMotionPreference = () => {
+    if (motionPreference.matches) {
+      document.querySelectorAll<HTMLVideoElement>("[data-research-motion]").forEach((video) => {
+        video.autoplay = false;
+        video.pause();
+      });
+    }
+  };
+  respectMotionPreference();
+  motionPreference.addEventListener("change", respectMotionPreference);
+</script>

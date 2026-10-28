@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Source presentations and local archives are not part of the published site.
+/*.pdf
+/*.pptx
+/public/documents/

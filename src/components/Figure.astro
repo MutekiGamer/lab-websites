@@ -1,0 +1,25 @@
+---
+import { localPath, project } from "../data/project";
+interface Props {
+  file: string;
+  alt: string;
+  width: number;
+  height: number;
+  paperFigure: number;
+  page: number;
+  eager?: boolean;
+  class?: string;
+}
+const { file, alt, width, height, paperFigure, page, eager = false, class: className } = Astro.props;
+const src = localPath(`images/${file}`);
+---
+<figure class:list={["research-figure", className]}>
+  <a href={src} class="figure-link" data-zoom aria-label={`Enlarge figure: ${alt}`}>
+    <img src={src} alt={alt} width={width} height={height} loading={eager ? "eager" : "lazy"} decoding="async" />
+    <span class="enlarge-hint" aria-hidden="true">↗ Enlarge</span>
+  </a>
+  <figcaption>
+    <slot />
+    <a class="figure-source" href={`${project.manuscript}#page=${page}`}>Paper, Fig. {paperFigure}</a>
+  </figcaption>
+</figure>
