@@ -1,7 +1,7 @@
 export const project = {
   name: "Robotic Excavator",
   title: "Teleoperation-Driven and Keyframe-Based Generalizable Imitation Learning for Construction Robots",
-  description: "Should a robot learn every move in a dig? Extract the useful moments from operator demonstrations, learn excavation skills, and explore their place in a connected construction workflow.",
+  description: "Advancing construction machine autonomy on Earth and beyond. Teleoperation, keyframe learning, and visual goals turn operator demonstrations into robot excavation skills. ASCE 2024 Best Paper Award.",
   authors: ["Yan Li", "Songyang Liu", "Mengjun Wang", "Shuai Li", "Jindong Tan"],
   institution: "The University of Tennessee, Knoxville",
   venue: "Journal of Computing in Civil Engineering, 2024",

@@ -1,125 +1,57 @@
 ---
-import Figure from "./Figure.astro";
 import MotionFigure from "./MotionFigure.astro";
+import Figure from "./Figure.astro";
 import { localPath } from "../lib/paths";
-const related = [
-  { number: "01", verb: "Sense", question: "What is beneath the surface?", title: "Subsurface mapping", year: "2023 · Automation in Construction", image: "images/story/subsurface.jpg", alt: "Ground-penetrating radar and underground utility mapping research", text: "GPR inversion and vision-based mapping locate buried utilities.", output: "Site information", href: "https://wangmmstar.github.io/projects/subsurface/" },
-  { number: "02", verb: "Specify", question: "Where should the work happen?", title: "BIM-to-workface guidance", year: "2025 · Automation in Construction", image: "images/story/bim-projection.png", alt: "A physical laser projection of a BIM component outline on a wall", text: "BIM-derived laser projections bring layout targets onto physical surfaces.", output: "A spatial target", href: "https://wangmmstar.github.io/projects/bim-laser/" },
-  { number: "03", verb: "Act", question: "How should the robot move?", title: "Robotic Excavator", year: "2024 · This research", image: "animations/contour-map-goal.jpg", alt: "The laboratory robot excavating in a sandbox", text: "Operator demonstrations become keyframes for learning excavation motions.", output: "A learned action", href: "#method", current: true },
-  { number: "04", verb: "Review", question: "What happened on site?", title: "Walkscribe", year: "Product demonstration", image: "construction-agent/inspection-evidence.jpg", alt: "Walkscribe inspection evidence from the product demonstration", text: "Field observations support guidance, review, and project records.", output: "Field evidence", href: localPath("walkscribe/") },
-];
+import { applications } from "../data/excavator";
 ---
-<section id="method" class="story-section">
-  <div class="section-heading">
-    <div><p class="story-eyebrow">01 / From a recording to a skill</p><h2>Learn the dig.<br />Leave the detours.</h2></div>
-    <p>The useful lesson is a small set of essential poses. These <strong>keyframes</strong> give the robot subgoals; a learned policy connects them into a motion.</p>
-  </div>
-  <div class="keyframe-layout">
-    <div class="keyframe-visual">
-      <div class="figure-overline"><span>A demonstrated motion</span><span>The moments worth keeping</span></div>
-      <a class="figure-link" data-zoom href={localPath("images/keyframe-extraction.png")} aria-label="Enlarge the keyframe extraction figure">
-        <img src={localPath("images/keyframe-extraction.png")} alt="Actual paper figure: a robot digging trajectory and selected keyframes, marked by red dots among the trajectory samples." width="1397" height="611" loading="lazy" />
-        <span class="enlarge-hint">↗ Enlarge</span>
-      </a>
-      <p class="visual-caption">Red dots mark the selected keyframes. <a href="https://par.nsf.gov/servlets/purl/10533657#page=20">Fig. 3 ↗</a></p>
+<section id="research" class="research-section frame">
+  <div class="section-intro">
+    <p class="eyebrow">01 / Our research</p>
+    <div class="intro-grid">
+      <h2>From an operator’s<br />experience to a<br /><em>robot’s skill.</em></h2>
+      <div class="intro-copy"><p>Excavation is more than moving a bucket. The robot must understand the worksite, choose a useful motion, and reach a target as the terrain changes.</p><p>Our approach starts with teleoperation. An operator demonstrates the task; we turn the recording into keyframes and use them to teach the robot how to move.</p></div>
     </div>
-    <div class="keyframe-finding"><span class="big-number">&gt;80<span>%</span></span><p>of redundant frames removed</p><span class="small-note">Reported keyframe-extraction result. <a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Source ↗</a></span></div>
   </div>
-  <ol class="learning-flow" aria-label="How a demonstration becomes a robot skill">
-    <li><span class="step-index">01</span><div><h3>Demonstrate</h3><p>An operator provides the trajectory.</p></div></li>
-    <li><span class="step-index">02</span><div><h3>Select</h3><p>Extract poses that guide the task.</p></div></li>
-    <li><span class="step-index">03</span><div><h3>Learn</h3><p>Train the actions between subgoals.</p></div></li>
-  </ol>
-  <details class="research-detail">
-    <summary>How keyframe selection and policy learning fit together</summary>
-    <Figure file="method-framework.png" alt="Keyframe identification, visual representation, goal generation, and hierarchical policy learning in the proposed framework." width={1430} height={629} paperFigure={1} page={12}>The high-level policy proposes subgoals; a low-level Soft Actor-Critic policy learns how to reach them.</Figure>
-  </details>
+  <div id="demonstrations" class="demonstration-sequence">
+    <article><div class="step-label"><span>01</span> Demonstrate <span aria-hidden="true">↗</span></div><MotionFigure file="operator-control" title="The operator leads.">Teleoperation connects the operator’s input to the robot.</MotionFigure></article>
+    <article><div class="step-label"><span>02</span> Capture <span aria-hidden="true">↗</span></div><MotionFigure file="teleoperation-testbed" title="The system observes.">Record robot motion alongside visual observations of the task.</MotionFigure></article>
+    <article><div class="step-label"><span>03</span> Execute <span aria-hidden="true">↗</span></div><MotionFigure file="autonomous-excavation" title="The robot performs the dig.">After learning, the laboratory robot executes an excavation motion.</MotionFigure></article>
+  </div>
+  <p class="sequence-note">Teleoperation and autonomous execution on the research testbed.</p>
 </section>
 
-<section id="results" class="story-section">
-  <div class="section-heading">
-    <div><p class="story-eyebrow">02 / From a skill to an action</p><h2>A robot needs to know<br />what success looks like.</h2></div>
-    <p>Give it a target contour—or let a visual model generate a goal from the observed scene. The learned policy turns that goal into excavation.</p>
+<section id="method" class="keyframes-section">
+  <div class="frame keyframe-grid">
+    <div class="keyframe-copy"><p class="eyebrow">Learning what matters</p><h2>A demonstration is dense.<br /><em>The lesson needn’t be.</em></h2><p>Human demonstrations contain pauses and extra movements. Keyframe selection keeps the essential poses from task-completing trajectories. A high-level policy proposes subgoals; a low-level policy learns the actions between them.</p><div class="keyframe-stat"><strong>&gt;80<span>%</span></strong><div>of redundant frames removed<a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Reported in the paper ↗</a></div></div></div>
+    <div class="keyframe-media"><p class="figure-label">A demonstrated trajectory → selected keyframes</p><a class="figure-link" data-zoom href={localPath("images/keyframe-extraction.png")} aria-label="Enlarge keyframe extraction figure"><img src={localPath("images/keyframe-extraction.png")} width="1397" height="611" loading="lazy" alt="Paper figure showing a digging trajectory with selected keyframes marked as red dots" /><span class="enlarge-hint">↗ Enlarge</span></a><p class="visual-caption">The red points are the keyframes. <a href="https://par.nsf.gov/servlets/purl/10533657#page=20">Fig. 3 ↗</a></p><details class="technical-detail"><summary>Explore the learning framework <span aria-hidden="true">+</span></summary><Figure file="method-framework.png" alt="Framework connecting keyframe identification, visual representation, goal generation and hierarchical policy learning" width={1430} height={629} paperFigure={1} page={12}>Selected subgoals guide the learned motion policy.</Figure></details></div>
   </div>
-  <div class="evidence-layout">
-    <div class="results-demo" data-tabs>
-      <div class="story-tabs" role="tablist" aria-label="Excavation goal formulation">
-        <button type="button" id="tab-contour" role="tab" aria-controls="result-contour" aria-selected="true">Specify the goal</button>
-        <button type="button" id="tab-vision" role="tab" aria-controls="result-vision" aria-selected="false" tabindex="-1">Generate it from vision</button>
-      </div>
-      <div id="result-contour" role="tabpanel" aria-labelledby="tab-contour" tabindex="0"><MotionFigure file="contour-map-goal" title="Excavate toward a target contour">A specified site contour defines the goal for the motion.</MotionFigure></div>
-      <div id="result-vision" role="tabpanel" aria-labelledby="tab-vision" tabindex="0" hidden><MotionFigure file="visual-latent-goal" title="Excavate toward a generated visual goal" autoplay={false}>A learned model generates the target representation from visual observations.</MotionFigure></div>
-      <p class="media-note">Actual laboratory executions · Separate demonstrations</p>
-    </div>
-    <div class="evidence-finding">
-      <p class="mini-label">Why connect vision and action?</p>
-      <div class="result-number"><span>40%</span><span class="result-arrow" aria-hidden="true">→</span><strong>&gt;60%</strong></div>
-      <p>In the representation study, excavation success improved when visual features were coupled with robot actions, compared with a pure autoencoder.</p>
-      <a class="small-source" href="https://par.nsf.gov/servlets/purl/10533657#page=33">Visual representation study ↗</a>
-      <div class="evidence-boundary"><strong>Tested in simulation + the laboratory</strong><p>Full-size excavators and changing field conditions are the next validation step.</p></div>
-    </div>
-  </div>
-  <details class="research-detail">
-    <summary>See the comparisons, visual-goal model, and testbed</summary>
-    <p class="detail-intro">The policy comparison used over 10,000 simulation trials per method. The proposed policy achieved the highest success rate among the compared methods in both goal configurations.</p>
-    <Figure file="policy-results.png" alt="Task-success curves for imitation-learning baselines and the proposed policy under specified and visual latent goals." width={1371} height={607} paperFigure={8} page={28}>The visual-goal formulation trades a small success-rate reduction for automatic goal generation. The original left panel offsets the behavior-cloning curve by −0.01 for visibility.</Figure>
-    <Figure file="latent-goal-generation.png" alt="The encoder and goal-generation network predict a target in latent space from the observed scene." width={1431} height={369} paperFigure={4} page={22}>Visual observations are connected with robot states for goal generation.</Figure>
-    <div class="testbed-detail"><Figure file="paper-testbed.png" alt="Robot arm, sandbox, camera, and HTC VIVE controllers used in the laboratory." width={701} height={743} paperFigure={6} page={24}>A controlled testbed for learning excavation.</Figure><div><h3>An operator is the starting point.</h3><p>HTC VIVE controllers capture demonstrations. A depth camera observes the sandbox. Robot arms let the team study learning before adapting it to full-size hydraulic equipment.</p><p>Demonstration quality, unfamiliar conditions, and limited real-world data remain open challenges.</p></div></div>
-  </details>
 </section>
 
-<section id="field" class="story-section deployment-section">
-  <div class="section-heading">
-    <div><p class="story-eyebrow">03 / From a laboratory skill to useful work</p><h2>Start with one machine.<br />One repeatable task.<br />An operator in control.</h2></div>
-    <p>Imagine a supervised pilot for a bounded digging task. An experienced operator teaches it; the system learns it; the crew decides when it is ready to repeat.</p>
-  </div>
-  <div class="deployment" data-tabs data-deployment>
-    <figure class="deployment-visual">
-      <img src={localPath("images/story/deployment-concept.webp")} alt="AI-generated deployment concept: a full-size excavator with a sensor pod in a marked work area, supervised from a separate tablet station." width="1536" height="1024" loading="lazy" />
-      <span class="concept-tag">Future deployment concept · AI illustration</span>
-      <button type="button" class="scene-point point-machine is-active" data-point="machine" aria-label="Explore the machine" aria-controls="pilot-machine">1</button>
-      <button type="button" class="scene-point point-operator" data-point="operator" aria-label="Explore the operator" aria-controls="pilot-operator">2</button>
-      <button type="button" class="scene-point point-task" data-point="task" aria-label="Explore the task" aria-controls="pilot-task">3</button>
-    </figure>
-    <div class="deployment-controls">
-      <div class="deployment-tabs" role="tablist" aria-label="Explore the proposed field pilot">
-        <button type="button" id="tab-machine" data-step="machine" role="tab" aria-controls="pilot-machine" aria-selected="true"><span>1</span> The machine</button>
-        <button type="button" id="tab-operator" data-step="operator" role="tab" aria-controls="pilot-operator" aria-selected="false" tabindex="-1"><span>2</span> The operator</button>
-        <button type="button" id="tab-task" data-step="task" role="tab" aria-controls="pilot-task" aria-selected="false" tabindex="-1"><span>3</span> The task</button>
+<section id="results" class="results-section">
+  <div class="frame">
+    <div class="intro-grid"><div><p class="eyebrow">02 / From learning to action</p><h2>Give the robot<br /><em>a goal to work toward.</em></h2></div><div class="intro-copy"><p>Excavation changes the scene after every pass. The framework uses either a target contour or a goal generated in a compact visual representation to guide the next trajectory.</p><p class="scope-label">Validated in simulation and on laboratory robotic arms.</p></div></div>
+    <div class="results-grid">
+      <div class="execution-demo" data-tabs>
+        <div class="line-tabs" role="tablist" aria-label="Excavation goal formulation"><button type="button" role="tab" id="goal-contour-tab" aria-controls="goal-contour" aria-selected="true">Target contour</button><button type="button" role="tab" id="goal-vision-tab" aria-controls="goal-vision" aria-selected="false" tabindex="-1">Visual goal</button></div>
+        <div id="goal-contour" role="tabpanel" aria-labelledby="goal-contour-tab" tabindex="0"><MotionFigure file="contour-map-goal" title="A specified terrain target.">A desired site contour supplies the excavation goal.</MotionFigure></div>
+        <div id="goal-vision" role="tabpanel" aria-labelledby="goal-vision-tab" tabindex="0" hidden><MotionFigure file="visual-latent-goal" title="A goal generated from the scene." autoplay={false}>The visual model generates a target in its learned latent space.</MotionFigure></div>
       </div>
-      <div class="deployment-panel">
-        <div id="pilot-machine" role="tabpanel" aria-labelledby="tab-machine" tabindex="0"><h3>Build around equipment crews already use.</h3><p>A proposed retrofit would connect cameras, machine state, and control interfaces to the learning system. Hydraulic response and sensing would need validation on the actual machine.</p><span class="pilot-question">First test: can the learned motion transfer to real equipment?</span></div>
-        <div id="pilot-operator" role="tabpanel" aria-labelledby="tab-operator" tabindex="0" hidden><h3>Make expertise part of the workflow.</h3><p>The operator demonstrates, reviews trial runs, and takes over when needed. Useful interventions can become new training examples after review and offline validation.</p><span class="pilot-question">First test: can a crew teach and supervise the task with reasonable effort?</span></div>
-        <div id="pilot-task" role="tabpanel" aria-labelledby="tab-task" tabindex="0" hidden><h3>Earn autonomy one work cycle at a time.</h3><p>Begin inside a defined work zone, with a bounded digging motion and a checked target. Expand to new materials or conditions only after evaluating completed work and interventions.</p><span class="pilot-question">First test: can the machine repeat useful work at the required quality?</span></div>
-      </div>
+      <aside class="result-evidence"><p class="eyebrow">Connecting vision and action</p><div class="success-stat"><span>40%</span><span aria-hidden="true">↗</span><strong>&gt;60%</strong></div><h3>Excavation success in the representation study.</h3><p>Binding visual features to robot actions improved success compared with a pure autoencoder.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=33">Read the experiment ↗</a><p class="scope-note">These are study results, not full-size machine or jobsite performance figures.</p></aside>
     </div>
+    <details class="technical-detail result-detail"><summary>See the comparison and test setup <span aria-hidden="true">+</span></summary><div class="expanded-results"><Figure file="policy-results.png" alt="Paper comparison of robot learning methods and their success rate across training timesteps" width={1371} height={607} paperFigure={8} page={28}>Learning performance compared with the paper’s baseline methods.</Figure><Figure file="paper-testbed.png" alt="The paper's laboratory excavation setup with robotic arm, sandbox, and RGB-D cameras" width={701} height={743} paperFigure={6} page={24}>The research platform used for laboratory validation.</Figure></div></details>
   </div>
-  <div class="pilot-workflow">
-    <div><span class="mini-label">Teach</span><h3>Demonstrate a bounded dig</h3><p>Capture the operator’s motion and the scene.</p></div>
-    <div><span class="mini-label">Validate</span><h3>Try it under supervision</h3><p>Check the result. Review takeovers. Refine offline.</p></div>
-    <div><span class="mini-label">Repeat</span><h3>Measure completed work</h3><p>Track material moved, cycle time, quality, and interventions.</p></div>
-  </div>
-  <div class="field-bottom"><p><strong>The product question:</strong> can one operator teach a useful skill once, then supervise it across repeated work?</p><a href="mailto:shuai.li@ufl.edu?subject=Robotic%20Excavator%20research%20pilot">Discuss a research pilot ↗</a></div>
 </section>
 
-<section id="bigger-picture" class="story-section connected-section">
-  <div class="section-heading">
-    <div><p class="story-eyebrow">04 / From one useful dig to a connected site</p><h2>Another brick<br />in the wall.</h2></div>
-    <p>A machine also needs context, a task, and feedback from the work. Earlier and later projects involving the team address these complementary parts.</p>
+<section id="applications" class="applications-section frame">
+  <div class="section-intro"><p class="eyebrow">03 / Where this could lead</p><div class="intro-grid"><h2>One learned skill.<br /><em>A wider field of work.</em></h2><div class="intro-copy"><p>The contribution is a way to learn construction motions from people. Adapting that approach opens questions beyond a single dig.</p><p class="scope-label">Research directions · Each needs its own hardware, sensing, and validation.</p></div></div></div>
+  <div class="application-explorer" data-tabs>
+    <div class="application-tabs" role="tablist" aria-label="Potential applications">
+      {applications.map((app, i) => <button type="button" id={`application-${app.id}-tab`} role="tab" aria-controls={`application-${app.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}><span>{app.number}</span>{app.label}<span aria-hidden="true">↗</span></button>)}
+    </div>
+    {applications.map((app, i) => <div id={`application-${app.id}`} class="application-panel" role="tabpanel" aria-labelledby={`application-${app.id}-tab`} tabindex="0" hidden={i !== 0}>
+      <figure class={`application-image application-image-${app.id}`}><img src={localPath(`images/earth-beyond/${app.image}`)} alt={app.alt} width="1440" height="1080" loading="lazy" /><figcaption>{app.caption}</figcaption></figure>
+      <div class="application-copy"><p class="eyebrow">{app.number} / Potential extension</p><h3>{app.title}</h3><p>{app.text}</p><div class="next-test"><span>What it takes</span><p>{app.next}</p></div><a href={app.source}>{app.sourceLabel} ↗</a></div>
+    </div>)}
   </div>
-  <div class="research-chain">
-    {related.map((item) => (
-      <article class:list={["chain-project", { "chain-current": item.current }]}>
-        <div class="chain-stage"><span>{item.number}</span><h3>{item.verb}</h3><span class="chain-arrow" aria-hidden="true">→</span></div>
-        <p class="chain-question">{item.question}</p>
-        <a class="chain-image" href={item.href} aria-label={`Explore ${item.title}`}><img src={localPath(item.image)} alt={item.alt} width="600" height="400" loading="lazy" /></a>
-        <p class="chain-year">{item.year}</p>
-        <h4><a href={item.href}>{item.title} <span aria-hidden="true">{item.current ? "↑" : "↗"}</span></a></h4>
-        <p class="chain-description">{item.text}</p>
-        <p class="chain-output">{item.output}</p>
-      </article>
-    ))}
-  </div>
-  <div class="integration-note"><span aria-hidden="true">↳</span><p><strong>The next opportunity is to connect these capabilities.</strong> Site information informs a task; a skill carries it out; field evidence informs the next decision. This is a proposed integration across projects, not an already deployed system.</p></div>
-  <div class="closing-thought"><p>It starts with a small question.</p><h2>Which part of this dig<br />is worth learning?</h2><a href="#overview">Watch the demonstration again ↑</a></div>
+  <div class="field-note"><span class="eyebrow">From the testbed to the field</span><p>Full-scale deployment still needs machine calibration, richer demonstrations, integrated sensing, and supervised trials in changing site conditions.</p></div>
 </section>

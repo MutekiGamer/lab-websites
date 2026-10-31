@@ -1,0 +1,111 @@
+{
+  "updated": "2026-10-31",
+  "featuredPaper": {
+    "doi": "10.1061/JCCEE5.CPENG-5884",
+    "manuscript": "https://par.nsf.gov/servlets/purl/10533657",
+    "award": "2024 Best Paper Award, Journal of Computing in Civil Engineering",
+    "awardSource": "https://ascelibrary.org/jccee5/best_paper_awards",
+    "claims": [
+      {
+        "claim": "Teleoperation data and scene observations support training; keyframes guide hierarchical policy learning; visual states are represented in a compact latent space.",
+        "pages": [
+          1,
+          2,
+          12,
+          34
+        ]
+      },
+      {
+        "claim": "Over 80% of redundant frames removed.",
+        "page": 32,
+        "scope": "Reported keyframe extraction result, not a reduction in excavation time or energy."
+      },
+      {
+        "claim": "Success increased from 40% to over 60% with action-bound visual representation versus a pure autoencoder.",
+        "page": 33,
+        "scope": "The visual representation experiment, not field deployment performance."
+      },
+      {
+        "claim": "Experiments used simulation and laboratory robotic arms.",
+        "pages": [
+          24,
+          32,
+          33
+        ],
+        "scope": "No full-size excavator deployment claimed."
+      }
+    ]
+  },
+  "referenceDecks": {
+    "research": "Robotic Excavator 1.pptx",
+    "narrative": "Teleoperation and demonstration → data/keyframe challenge → learning/goal challenge → framework → laboratory executions.",
+    "publishedVideoMappings": {
+      "operator-control.mp4": "Slide 2, image3.gif",
+      "teleoperation-testbed.mp4": "Slide 2, image2.gif",
+      "autonomous-excavation.mp4": "Slide 2, image4.gif",
+      "contour-map-goal.mp4": "Slide 6, image24.gif",
+      "visual-latent-goal.mp4": "Slide 6, image25.gif"
+    },
+    "visualReferences": [
+      "Black and Orange Modern Veavy Equipment Rental Instagram Post.pptx",
+      "Gold And Black Industrial Mining And Extraction Presentation.pptx"
+    ],
+    "visualReferenceUse": "Art direction: large machinery photographs, landscape crops, industrial scale. Third-party stock artwork in these decks was not republished because its license was not supplied. No rental, pricing, company, or placeholder deck copy was reused."
+  },
+  "applications": {
+    "status": "Proposed extensions; none presented as a completed application of the featured paper.",
+    "otherMachines": "https://doi.org/10.1016/j.autcon.2021.103783",
+    "solarInstallation": "https://www.aes.com/about-us/innovation/maximo",
+    "lunarExcavation": "https://www.nasa.gov/infrastructure-pilot-excavator/",
+    "utilityMapping": "https://doi.org/10.1016/j.autcon.2023.105004",
+    "interpretation": "Demonstration learning is a possible starting point. Each new task requires new demonstrations, sensing, hardware/control adaptation, and validation; there is no claim of direct zero-shot transfer. Utility avoidance is an integration direction, not a proven collision-avoidance function."
+  },
+  "media": {
+    "attributionData": "src/data/excavator.ts#imageCredits (also rendered visibly in page footer)",
+    "vision.webp": "Built Robotics via Unsplash, https://unsplash.com/photos/92nDruwPF2s; Unsplash License. Industry photograph, explicitly not our testbed.",
+    "dozer.webp": "David Drew, https://commons.wikimedia.org/wiki/File:Cat_D11_View_2.jpg; CC BY-SA 3.0. Resized/WebP/display crop; adaptation under same license.",
+    "solar.webp": "Vera Kratochvil, https://www.publicdomainpictures.net/en/view-image.php?image=9099&picture=solar-panels; CC0.",
+    "ipex.webp": "NASA/KSC, https://www.nasa.gov/wp-content/uploads/2024/09/ipex-trl-5-demo.png; NASA image/media guidelines. Photograph of terrestrial testbed, not an image of a robot operating on the Moon.",
+    "utilities.webp": "Tony Webster, https://commons.wikimedia.org/wiki/File:Gas_Line_Rupture_-_Natural_Gas_Break_(54124032675).jpg; CC BY-SA 2.0 as verified on Commons. Resized/WebP/display crop; adaptation under same license.",
+    "generatedMedia": "None. Previous AI deployment-concept image removed."
+  },
+  "relatedResearch": [
+    {
+      "doi": "10.1016/j.autcon.2023.105004",
+      "year": 2023,
+      "linkToFeaturedWork": "Shared authors Mengjun Wang and Shuai Li; site perception / buried utility mapping."
+    },
+    {
+      "doi": "10.1061/(ASCE)CP.1943-5487.0001056",
+      "year": 2023,
+      "onlineYear": 2022,
+      "linkToFeaturedWork": "Shared author Shuai Li; simulation of prediction-aware safe robot path planning."
+    },
+    {
+      "title": "Robotic localization via active projected fiducials for space construction",
+      "authors": [
+        "Mengjun Wang",
+        "Shuai Li",
+        "Yunlan Zhang"
+      ],
+      "year": 2026,
+      "source": "https://wangmmstar.github.io/",
+      "statusShown": "Journal of Computing in Civil Engineering · In production",
+      "statusBasis": "Author research page reports accepted August 2026 and in production; no DOI or final volume invented.",
+      "linkToFeaturedWork": "Shared authors Mengjun Wang and Shuai Li; localization for space construction."
+    }
+  ],
+  "otherGroupsFurtherReading": [
+    {
+      "title": "A framework for robotic excavation and dry stone construction using on-site materials",
+      "doi": "10.1126/scirobotics.abp9758",
+      "venue": "Science Robotics",
+      "year": 2023
+    },
+    {
+      "title": "ExACT: An End-to-End Autonomous Excavator System Using Action Chunking With Transformers",
+      "source": "https://arxiv.org/abs/2405.05861",
+      "statusShown": "2024 preprint"
+    }
+  ]
+}

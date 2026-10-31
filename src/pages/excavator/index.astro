@@ -2,165 +2,112 @@
 import "@fontsource-variable/manrope";
 import "../../styles/global.css";
 import "../../styles/excavator-story.css";
-import { Content } from "../../paper.mdx";
+import ExcavatorStory from "../../components/ExcavatorStory.astro";
 import { project, bibtex, localPath } from "../../data/project";
-import MotionFigure from "../../components/MotionFigure.astro";
+import { relatedPublications, imageCredits } from "../../data/excavator";
 import ResourceLink from "../../components/ResourceLink.astro";
 import ResearchNav from "../../components/ResearchNav.astro";
 import ImageViewer from "../../components/ImageViewer.astro";
-const demonstrations = [
-  { id: "redundant", file: "redundant-motion", label: "Extra motion", title: "The bucket moves. But is every move useful?", text: "A demonstration can include extra movement that the robot does not need to repeat." },
-  { id: "irrelevant", file: "irrelevant-motion", label: "Off-task motion", title: "Some movements do not help the dig.", text: "A recorded trajectory can include actions unrelated to the excavation task." },
-  { id: "failed", file: "failed-motion", label: "Failed attempt", title: "A demonstration still has to complete the task.", text: "Failed demonstrations remain a limitation. The paper extracts keyframes from trajectories that complete the task." },
-];
+const awardUrl = "https://ascelibrary.org/jccee5/best_paper_awards";
+const title = "Robotic Excavator · Autonomy on Earth and Beyond";
 ---
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={project.description} />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="generator" content={Astro.generator} />
-    <meta property="og:title" content="Robotic Excavator · Learn the dig. Leave the detours." />
-    <meta property="og:description" content={project.description} />
-    <meta property="og:type" content="website" />
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={project.description} /><meta name="theme-color" content="#eeece6" /><meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={title} /><meta property="og:description" content={project.description} /><meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL(localPath("images/earth-beyond/vision.webp"), Astro.site).href} />
     <meta name="citation_title" content={project.title} />
     {project.authors.map((author) => <meta name="citation_author" content={author} />)}
-    <meta name="citation_publication_date" content="2024/08/06" />
-    <meta name="citation_journal_title" content="Journal of Computing in Civil Engineering" />
-    <meta name="citation_doi" content="10.1061/JCCEE5.CPENG-5884" />
-    <meta name="citation_pdf_url" content={project.manuscript} />
-    <link rel="icon" type="image/svg+xml" href={localPath("favicon.svg")} />
-    <title>Robotic Excavator · Learn the dig. Leave the detours.</title>
+    <meta name="citation_publication_date" content="2024/08/06" /><meta name="citation_journal_title" content="Journal of Computing in Civil Engineering" /><meta name="citation_doi" content="10.1061/JCCEE5.CPENG-5884" /><meta name="citation_pdf_url" content={project.manuscript} />
+    <link rel="icon" type="image/svg+xml" href={localPath("favicon.svg")} /><title>{title}</title>
   </head>
   <body class="excavator-story">
-    <a class="skip-link" href="#overview">Skip to project overview</a>
-    <ResearchNav current="excavator" />
-    <main class="page-container">
-      <header id="overview" class="story-hero">
-        <div class="hero-copy">
-          <p class="story-eyebrow">Robotic Excavator / Learning from operators</p>
-          <h1>Should a robot<br />learn every move<br />in a dig?</h1>
-          <p class="hero-answer">Even the ones that do not help?</p>
-          <p class="hero-intro">Even a successful dig produces a dense, noisy recording. We extract <strong>the essential poses</strong> from teleoperated demonstrations, then use them to learn excavation trajectories.</p>
-          <div class="hero-links">
-            <ResourceLink href={project.paper} icon="paper">Paper</ResourceLink>
-            <ResourceLink href="#citation" icon="citation">BibTeX</ResourceLink>
-          </div>
-          <p class="hero-credit">
-            <span class="hero-author-list">{project.authors.map((author) => <span>{author}</span>)}</span>
-            <span class="hero-journal">{project.venue}</span>
-          </p>
-        </div>
-        <div id="demonstrations" class="hero-demo" data-tabs>
-          <p class="media-label"><span class="live-dot" aria-hidden="true"></span> The problem, in one demonstration</p>
-          {demonstrations.map((demo, i) => (
-            <div id={`demo-${demo.id}`} role="tabpanel" aria-labelledby={`tab-${demo.id}`} tabindex="0" hidden={i !== 0}>
-              <MotionFigure file={demo.file} title={demo.title} autoplay={i === 0}>{demo.text}</MotionFigure>
-            </div>
-          ))}
-          <div class="story-tabs" role="tablist" aria-label="Explore demonstration problems">
-            {demonstrations.map((demo, i) => <button id={`tab-${demo.id}`} type="button" role="tab" aria-controls={`demo-${demo.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{demo.label}</button>)}
-          </div>
-          <p class="media-note">Actual laboratory demonstrations · Choose an example</p>
-        </div>
+    <a class="skip-link" href="#overview">Skip to overview</a>
+    <div class="excavator-topbar"><a class="site-wordmark" href="#overview">Robotic Excavator<span>Construction machine autonomy</span></a><nav class="desktop-section-links" aria-label="Page sections"><a href="#research">Research</a><a href="#applications">Applications</a><a href="#publications">Publications</a></nav><ResearchNav current="excavator" /></div>
+    <main>
+      <header id="overview" class="vision-hero">
+        <img class="vision-image" src={localPath("images/earth-beyond/vision.webp")} alt="A full-size autonomous excavator on a dusty construction site at sunset; industry context photograph" width="2400" height="1600" fetchpriority="high" />
+        <div class="vision-shade"></div>
+        <div class="vision-content frame"><p class="eyebrow">From teleoperation to automation</p><h1>Advancing Construction<br class="desktop-break" /> Machine Autonomy <br />on Earth and <em>Beyond.</em></h1><p class="vision-subtitle">Learning from people.<br />Building toward autonomous construction.</p></div>
+        <div class="hero-bottom frame"><span>Our vision / Earth → Space</span><a href="#media-credits">Industry photograph · Image credits ↗</a></div>
       </header>
-      <nav class="section-nav" aria-label="Page sections">
-        <a href="#method"><span>01</span> Learn the skill</a><a href="#results"><span>02</span> See it work</a><a href="#field"><span>03</span> Put it to work</a><a href="#bigger-picture"><span>04</span> Connect the research</a>
-      </nav>
-      <Content />
-      <section id="citation" class="publication-section">
-        <p class="story-eyebrow">The paper behind the project</p>
-        <h2 class="publication-title"><a href={project.paper}>{project.title}</a></h2>
-        <p class="publication-authors">{project.authors.join(" · ")}</p>
-        <p class="publication-venue">{project.institution}<br />{project.venue} · 38(6), 04024031</p>
-        <details class="research-detail citation-disclosure" id="citation-details">
-          <summary>Citation &amp; research materials</summary>
-          <div class="citation-heading"><span>BibTeX</span><button type="button" id="copy-citation" hidden>Copy BibTeX</button></div>
-          <pre tabindex="0" aria-label="BibTeX citation"><code id="bibtex">{bibtex}</code></pre>
-          <p class="citation-status" id="citation-status" role="status" aria-live="polite"></p>
-          <p class="data-note">Data, models, and code are available from the corresponding author upon reasonable request. <a href={project.manuscript}>Read the author manuscript ↗</a></p>
-        </details>
+      <div class="award-band frame"><div><a class="award-label" href={awardUrl}><span aria-hidden="true">✳</span> 2024 Best Paper Award ↗</a><p>Journal of Computing in Civil Engineering · ASCE</p></div><div class="award-description">The research behind the vision:<br /><strong>learning excavation from operator demonstrations.</strong></div><div class="hero-links"><ResourceLink href={project.paper} icon="paper">Paper</ResourceLink><ResourceLink href="#citation" icon="citation">BibTeX</ResourceLink></div></div>
+      <ExcavatorStory />
+      <section id="publications" class="publications-section">
+        <div class="frame"><div class="publication-heading"><p class="eyebrow">04 / Publications &amp; related research</p><h2>Another brick<br /><em>in the wall.</em></h2><p>Learning to act, understanding a site, and working around people are complementary research problems.</p></div>
+          <article class="featured-paper"><div class="featured-meta"><a class="award-label" href={awardUrl}>✳ 2024 Best Paper Award ↗</a><span>This website’s featured research</span></div><h3><a href={project.paper}>{project.title}</a></h3><p class="publication-authors">{project.authors.join(" · ")}</p><p class="publication-venue">{project.venue} · 38(6), 04024031</p><p class="publication-contribution">Teleoperation demonstrations, selected keyframes, and visual goals for learning excavation trajectories.</p><div class="publication-links"><a href={project.paper}>Read paper ↗</a><a href="#citation">Cite this work ↓</a></div></article>
+          <div class="related-publications">{relatedPublications.map((paper) => <article class="publication-row"><div class="publication-topic"><span>{paper.year}</span>{paper.topic}</div><div><h3><a href={paper.href}>{paper.title}</a></h3><p class="publication-authors">{paper.authors}</p><p class="publication-venue">{paper.venue}</p><p class="publication-contribution">{paper.note}</p></div><a class="publication-arrow" href={paper.href} aria-label={`Read ${paper.title}`}>↗</a></article>)}</div>
+          <details class="technical-detail wider-reading"><summary>Further reading in autonomous construction <span aria-hidden="true">+</span></summary><p>Selected work from other groups, for context.</p><a href="https://doi.org/10.1126/scirobotics.abp9758">A framework for robotic excavation and dry stone construction using on-site materials</a><p>Johns et al. · Science Robotics, 2023 — from excavating terrain to placing irregular stones.</p><a href="https://arxiv.org/abs/2405.05861">ExACT: An End-to-End Autonomous Excavator System Using Action Chunking With Transformers</a><p>2024 preprint — learning excavator control directly from multimodal observations.</p></details>
+          <section id="citation" class="citation-section"><details class="technical-detail" id="citation-details"><summary>Cite the featured paper <span aria-hidden="true">+</span></summary><div class="citation-heading"><span>BibTeX</span><button type="button" id="copy-citation" hidden>Copy BibTeX</button></div><pre tabindex="0" aria-label="BibTeX citation"><code id="bibtex">{bibtex}</code></pre><p class="citation-status" id="citation-status" role="status" aria-live="polite"></p><p class="data-note">Data, models, and code are available from the corresponding author upon reasonable request. <a href={project.manuscript}>Author manuscript ↗</a></p></details></section>
+        </div>
       </section>
     </main>
-    <footer>
-      <p>Research supported by NSF grants 2129003 and 2222810. Research media: the project team and linked publications.</p>
-      <p>Design adapted from <a href="https://github.com/RomanHauksson/academic-project-astro-template">Roman Hauksson-Neill’s academic project template</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Research materials retain their respective rights.</p>
-    </footer>
+    <footer class="excavator-footer"><div class="frame"><div class="footer-heading"><span>Robotic Excavator</span><a href="#overview">Back to top ↑</a></div><p>Research supported by NSF grants 2129003 and 2222810.</p><details id="media-credits" class="technical-detail"><summary>Images, research media &amp; credits <span aria-hidden="true">+</span></summary><p>Research demonstrations and figures: the project team and the featured paper. Application photographs illustrate their settings; they do not show deployments of our method.</p><ul class="credit-list">{imageCredits.map((credit) => <li><strong>{credit.name}</strong> — <a href={credit.source}>{credit.creator}</a> · <a href={credit.licenseUrl}>{credit.license}</a><span>{credit.note}</span></li>)}</ul><p>Site adapted from <a href="https://github.com/RomanHauksson/academic-project-astro-template">Roman Hauksson-Neill’s academic project template</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Research materials and photographs retain their respective rights.</p></details></div></footer>
     <ImageViewer />
     <script>
-      const openCitation = () => {
-        const details = document.querySelector<HTMLDetailsElement>("#citation-details");
-        if (details) details.open = true;
+      const openDisclosure = () => {
+        const id = location.hash === "#citation" ? "citation-details" : location.hash === "#media-credits" ? "media-credits" : "";
+        const details = document.getElementById(id);
+        if (details instanceof HTMLDetailsElement) details.open = true;
       };
-      document.querySelector<HTMLAnchorElement>('.hero-links a[href="#citation"]')?.addEventListener("click", openCitation);
-      window.addEventListener("hashchange", () => { if (window.location.hash === "#citation") openCitation(); });
-      if (window.location.hash === "#citation") openCitation();
-      // Every tab group is independent and supports keyboard navigation.
+      document.querySelectorAll<HTMLAnchorElement>('a[href="#citation"], a[href="#media-credits"]').forEach(link => link.addEventListener("click", () => {
+        const id = link.hash === "#citation" ? "citation-details" : "media-credits";
+        const details = document.getElementById(id); if (details instanceof HTMLDetailsElement) details.open = true;
+      }));
+      window.addEventListener("hashchange", openDisclosure); openDisclosure();
       document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((group) => {
-        const tabs = Array.from(group.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
-        const select = (selected: HTMLButtonElement) => {
-          tabs.forEach((tab) => {
-            const active = tab === selected;
-            tab.setAttribute("aria-selected", String(active));
-            tab.tabIndex = active ? 0 : -1;
-            const panel = document.getElementById(tab.getAttribute("aria-controls") ?? "");
-            if (!panel) return;
-            panel.hidden = !active;
-            panel.querySelectorAll<HTMLVideoElement>("video").forEach((video) => {
-              if (!active) video.pause();
-              else if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) video.play().catch(() => {});
-            });
+        const tabs = [...group.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+        const select = (selected: HTMLButtonElement) => tabs.forEach((tab) => {
+          const active = tab === selected;
+          tab.setAttribute("aria-selected", String(active)); tab.tabIndex = active ? 0 : -1;
+          const panel = document.getElementById(tab.getAttribute("aria-controls") ?? "");
+          if (!panel) return; panel.hidden = !active;
+          panel.querySelectorAll<HTMLVideoElement>("video").forEach(video => {
+            if (!active) video.pause();
+            else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) video.play().catch(() => {});
           });
-          if (group.hasAttribute("data-deployment")) {
-            group.querySelectorAll<HTMLElement>("[data-point]").forEach((point) => {
-              point.classList.toggle("is-active", point.dataset.point === selected.dataset.step);
-            });
-          }
-        };
+        });
         tabs.forEach((tab, index) => {
           tab.addEventListener("click", () => select(tab));
-          tab.addEventListener("keydown", (event) => {
+          tab.addEventListener("keydown", event => {
             let next = index;
             if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
             else if (event.key === "ArrowLeft") next = (index + tabs.length - 1) % tabs.length;
             else if (event.key === "Home") next = 0;
             else if (event.key === "End") next = tabs.length - 1;
             else return;
-            event.preventDefault();
-            select(tabs[next]);
-            tabs[next].focus();
-          });
-        });
-        group.querySelectorAll<HTMLButtonElement>("button[data-point]").forEach((point) => {
-          point.addEventListener("click", () => {
-            const tab = tabs.find((item) => item.dataset.step === point.dataset.point);
-            if (!tab) return;
-            select(tab);
-            tab.focus({ preventScroll: true });
-            tab.scrollIntoView({ block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+            event.preventDefault(); select(tabs[next]); tabs[next].focus();
           });
         });
       });
-      const copyButton = document.querySelector<HTMLButtonElement>("#copy-citation")!;
+      // Stop clips outside the viewport, including clips in closed disclosures or tabs.
+      const visibleVideos = new Set<HTMLVideoElement>();
+      const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+      const syncPlayback = (video: HTMLVideoElement) => {
+        if (!visibleVideos.has(video) || document.hidden || video.closest("[hidden]") || motionPreference.matches) video.pause();
+        else if (!video.dataset.userPaused) video.play().catch(() => {});
+      };
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+        const video = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting) visibleVideos.add(video); else visibleVideos.delete(video);
+        syncPlayback(video);
+      }), { threshold: 0.25 });
+      document.querySelectorAll<HTMLVideoElement>("video[data-research-motion]").forEach(video => {
+        observer.observe(video);
+        // A pointer/keyboard interaction with the player's controls takes ownership of playback.
+        video.addEventListener("pointerdown", () => { video.dataset.userPaused = "true"; });
+        video.addEventListener("keydown", () => { video.dataset.userPaused = "true"; });
+      });
+      document.addEventListener("visibilitychange", () => visibleVideos.forEach(syncPlayback));
+      motionPreference.addEventListener("change", () => visibleVideos.forEach(syncPlayback));
+      const button = document.querySelector<HTMLButtonElement>("#copy-citation")!;
       const status = document.querySelector<HTMLElement>("#citation-status")!;
-      copyButton.hidden = false;
-      copyButton.addEventListener("click", async () => {
-        const citation = document.querySelector("#bibtex")!.textContent ?? "";
-        try {
-          await navigator.clipboard.writeText(citation);
-          status.textContent = "BibTeX copied to clipboard.";
-          copyButton.textContent = "Copied!";
-          window.setTimeout(() => { copyButton.textContent = "Copy BibTeX"; }, 2500);
-        } catch {
-          const range = document.createRange();
-          range.selectNodeContents(document.querySelector("#bibtex")!);
-          const selection = window.getSelection();
-          selection?.removeAllRanges();
-          selection?.addRange(range);
-          status.textContent = "Citation selected. Press Ctrl+C or ⌘C to copy.";
-        }
+      button.hidden = false;
+      button.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(document.querySelector("#bibtex")!.textContent ?? ""); status.textContent = "BibTeX copied to clipboard."; }
+        catch { const range = document.createRange(); range.selectNodeContents(document.querySelector("#bibtex")!); const selection = getSelection(); selection?.removeAllRanges(); selection?.addRange(range); status.textContent = "Citation selected. Press Ctrl+C or ⌘C to copy."; }
       });
     </script>
   </body>
