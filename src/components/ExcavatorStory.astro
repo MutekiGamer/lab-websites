@@ -129,7 +129,13 @@ const experiments = [
       {applications.map((app, i) => <button type="button" id={`application-${app.id}-tab`} role="tab" aria-controls={`application-${app.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}><span>{app.number}</span>{app.label}<span aria-hidden="true">↗</span></button>)}
     </div>
     {applications.map((app, i) => <div id={`application-${app.id}`} class="application-panel" role="tabpanel" aria-labelledby={`application-${app.id}-tab`} tabindex="0" hidden={i !== 0}>
-      <figure class={`application-image application-image-${app.id}`}><img src={localPath(`images/earth-beyond/${app.image}`)} alt={app.alt} width="1440" height="1080" loading="lazy" /><figcaption>{app.caption}</figcaption></figure>
+      <figure class={`application-image application-image-${app.id}`}>
+        {app.videoEmbed ? <>
+          <div class="application-video"><iframe data-embed-src={app.videoEmbed} title={app.videoTitle} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <ol class="installation-actions" aria-label="Panel installation sequence"><li><span>01</span> Pick up</li><li><span>02</span> Align</li><li><span>03</span> Place</li></ol>
+        </> : <img src={localPath(`images/earth-beyond/${app.image}`)} alt={app.alt} width="1440" height="1080" loading="lazy" />}
+        <figcaption>{app.caption}{app.videoEmbed && <a class="video-fallback" href="https://vimeo.com/990768574#t=10s">Watch on Vimeo ↗</a>}</figcaption>
+      </figure>
       <div class="application-copy"><p class="eyebrow">{app.number} / Potential extension</p><h3>{app.title}</h3><p>{app.text}</p><div class="next-test"><span>What it takes</span><p>{app.next}</p></div><a href={app.source}>{app.sourceLabel} ↗</a></div>
     </div>)}
   </div>

@@ -9,10 +9,11 @@ export const applications = [
     source: "https://doi.org/10.1016/j.autcon.2021.103783", sourceLabel: "Related field robotics research",
   },
   {
-    id: "solar", number: "02", label: "Solar construction", title: "Build the energy transition.",
-    image: "solar.webp", alt: "Rows of photovoltaic solar panels in sunlight",
-    caption: "Solar infrastructure · an application setting",
-    text: "Solar installation involves repeated lifting and precise placement. A construction machine with a suitable manipulator could learn these motions from an operator, extending from moving soil to handling modules.",
+    id: "solar", number: "02", label: "Solar construction", title: "From digging to placing panels.",
+    videoEmbed: "https://player.vimeo.com/video/990768574?title=0&byline=0&portrait=0&dnt=1#t=10s",
+    videoTitle: "Robotic solar-panel placement — AES Maximo installation demonstration",
+    caption: "AES / Maximo · robotic panel placement · industry demonstration",
+    text: "Pick up a panel, align it with the rack, and lower it into position. These repeated handling motions offer a concrete extension for demonstration learning: an operator could teach the key poses, while visual feedback guides placement.",
     next: "Add a panel-handling tool, force-aware control, and alignment feedback. Validate placement accuracy and panel protection.",
     source: "https://www.aes.com/about-us/innovation/maximo", sourceLabel: "Robotic installation in practice",
   },
@@ -61,7 +62,7 @@ export const relatedPublications = [
 export const imageCredits = [
   { name: "Vision photograph", creator: "Built Robotics / Unsplash", source: "https://unsplash.com/photos/92nDruwPF2s", license: "Unsplash License", licenseUrl: "https://unsplash.com/license", note: "Industry context; this photograph does not depict our research platform. Resized and display-cropped." },
   { name: "Bulldozer", creator: "David Drew / Wikimedia Commons", source: "https://commons.wikimedia.org/wiki/File:Cat_D11_View_2.jpg", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/", note: "Resized, WebP conversion, display crop. This adaptation retains CC BY-SA 3.0." },
-  { name: "Solar panels", creator: "Vera Kratochvil / Public Domain Pictures", source: "https://www.publicdomainpictures.net/en/view-image.php?image=9099&picture=solar-panels", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/", note: "WebP conversion and display crop." },
+  { name: "Solar installation demonstration", creator: "AES / Maximo; Vimeo upload by Vance Hedderel", source: "https://vimeo.com/990768574", license: "Original Vimeo player", licenseUrl: "https://www.aes.com/about-us/innovation/maximo", note: "Embedded video used on AES’s official Maximo page. Copyright remains with its owners; no video or thumbnail is copied into this site. Industry example, not a deployment of the featured paper’s method." },
   { name: "IPEx testbed", creator: "NASA / Kennedy Space Center", source: "https://www.nasa.gov/infrastructure-pilot-excavator/", license: "NASA media usage guidelines", licenseUrl: "https://www.nasa.gov/nasa-brand-center/images-and-media/", note: "Real terrestrial testbed photograph. Resized, WebP conversion, display crop. No NASA endorsement implied." },
   { name: "Gas-line repair", creator: "Tony Webster / Wikimedia Commons", source: "https://commons.wikimedia.org/wiki/File:Gas_Line_Rupture_-_Natural_Gas_Break_(54124032675).jpg", license: "CC BY-SA 2.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/", note: "Resized, WebP conversion, display crop. This adaptation retains CC BY-SA 2.0." },
 ];

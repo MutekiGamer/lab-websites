@@ -64,6 +64,11 @@ const title = "Robotic Excavator · Autonomy on Earth and Beyond";
           tab.setAttribute("aria-selected", String(active)); tab.tabIndex = active ? 0 : -1;
           const panel = document.getElementById(tab.getAttribute("aria-controls") ?? "");
           if (!panel) return; panel.hidden = !active;
+          panel.querySelectorAll<HTMLIFrameElement>("iframe[data-embed-src]").forEach(frame => {
+            if (active) {
+              if (!frame.hasAttribute("src")) frame.src = frame.dataset.embedSrc!;
+            } else frame.removeAttribute("src");
+          });
           panel.querySelectorAll<HTMLVideoElement>("video").forEach(video => {
             if (!active) video.pause();
             else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) video.play().catch(() => {});
@@ -81,6 +86,12 @@ const title = "Robotic Excavator · Autonomy on Earth and Beyond";
             event.preventDefault(); select(tabs[next]); tabs[next].focus();
           });
         });
+        const selectFromHash = () => {
+          const selected = tabs.find(tab => tab.getAttribute("aria-controls") === location.hash.slice(1));
+          if (selected) select(selected);
+        };
+        window.addEventListener("hashchange", selectFromHash);
+        selectFromHash();
       });
       // Stop clips outside the viewport, including clips in closed disclosures or tabs.
       const visibleVideos = new Set<HTMLVideoElement>();
