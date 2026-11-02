@@ -3,47 +3,127 @@ import MotionFigure from "./MotionFigure.astro";
 import Figure from "./Figure.astro";
 import { localPath } from "../lib/paths";
 import { applications } from "../data/excavator";
+
+const dataChallenges = [
+  { file: "redundant-motion", title: "Redundant", text: "Repeated motion adds frames without adding a new lesson." },
+  { file: "irrelevant-motion", title: "Irrelevant", text: "Some movements do not contribute to the excavation task." },
+  { file: "failed-motion", title: "Failed", text: "An attempted motion may not complete the intended task." },
+];
+const experiments = [
+  {
+    id: "contour", number: "01", title: "When the target is specified.",
+    state: "Site contour map", goal: "Desired site contour map", action: "Robot trajectory",
+    file: "contour-map-goal", image: "specified-goal-results.png", width: 2834, height: 2158,
+    figure: "8a", alt: "Success-rate comparison with a manually specified goal; the full method outperforms the plotted baselines and the version without the primitive policy",
+    finding: "The full policy outperforms the compared baselines, including the version without the primitive policy. Learning the motions between subgoals matters.",
+  },
+  {
+    id: "vision", number: "02", title: "When the goal comes from vision.",
+    state: "Calibrated visual observations", goal: "Generated latent goal", action: "Robot trajectory",
+    file: "visual-latent-goal", image: "visual-goal-results.png", width: 840, height: 642,
+    figure: "8b", alt: "Success-rate comparison using visual goals; the full method outperforms the plotted baselines and the version without action binding",
+    finding: "The visual model learns to generate the goal. Success is slightly lower than with a manually specified target, but the final goal no longer has to be set by hand.",
+  },
+];
 ---
+
 <section id="research" class="research-section frame">
-  <div class="section-intro">
-    <p class="eyebrow">01 / Our research</p>
-    <div class="intro-grid">
-      <h2>From an operator’s<br />experience to a<br /><em>robot’s skill.</em></h2>
-      <div class="intro-copy"><p>Excavation is more than moving a bucket. The robot must understand the worksite, choose a useful motion, and reach a target as the terrain changes.</p><p>Our approach starts with teleoperation. An operator demonstrates the task; we turn the recording into keyframes and use them to teach the robot how to move.</p></div>
-    </div>
+  <div class="section-intro intro-grid">
+    <div><p class="eyebrow">01 / From teleoperation to autonomy</p><h2>Start with<br /><em>the operator.</em></h2></div>
+    <div class="intro-copy"><p>An operator already knows how to dig. Teleoperation lets them guide the robot while the system records the motion and the scene.</p><p>Those demonstrations become training data. The next step is to teach the robot to reach a goal on its own.</p></div>
   </div>
-  <div id="demonstrations" class="demonstration-sequence">
-    <article><div class="step-label"><span>01</span> Demonstrate <span aria-hidden="true">↗</span></div><MotionFigure file="operator-control" title="The operator leads.">Teleoperation connects the operator’s input to the robot.</MotionFigure></article>
-    <article><div class="step-label"><span>02</span> Capture <span aria-hidden="true">↗</span></div><MotionFigure file="teleoperation-testbed" title="The system observes.">Record robot motion alongside visual observations of the task.</MotionFigure></article>
-    <article><div class="step-label"><span>03</span> Execute <span aria-hidden="true">↗</span></div><MotionFigure file="autonomous-excavation" title="The robot performs the dig.">After learning, the laboratory robot executes an excavation motion.</MotionFigure></article>
+  <div id="demonstrations" class="operator-demonstrations">
+    <MotionFigure file="operator-control" title="Human experience, demonstrated.">The operator controls the laboratory robot through teleoperation.</MotionFigure>
+    <MotionFigure file="teleoperation-testbed" title="Motion and scene, recorded together.">The testbed captures robot states alongside visual observations.</MotionFigure>
   </div>
-  <p class="sequence-note">Teleoperation and autonomous execution on the research testbed.</p>
+  <ol class="learning-route" aria-label="Research progression">
+    <li><span>01</span><div><strong>Demonstration</strong><p>An operator performs the task.</p></div><b aria-hidden="true">→</b></li>
+    <li><span>02</span><div><strong>Learning</strong><p>Extract keyframes. Learn goals and actions.</p></div><b aria-hidden="true">→</b></li>
+    <li><span>03</span><div><strong>Autonomy</strong><p>The robot generates the task motion.</p></div></li>
+  </ol>
 </section>
 
-<section id="method" class="keyframes-section">
-  <div class="frame keyframe-grid">
-    <div class="keyframe-copy"><p class="eyebrow">Learning what matters</p><h2>A demonstration is dense.<br /><em>The lesson needn’t be.</em></h2><p>Human demonstrations contain pauses and extra movements. Keyframe selection keeps the essential poses from task-completing trajectories. A high-level policy proposes subgoals; a low-level policy learns the actions between them.</p><div class="keyframe-stat"><strong>&gt;80<span>%</span></strong><div>of redundant frames removed<a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Reported in the paper ↗</a></div></div></div>
-    <div class="keyframe-media"><p class="figure-label">A demonstrated trajectory → selected keyframes</p><a class="figure-link" data-zoom href={localPath("images/keyframe-extraction.png")} aria-label="Enlarge keyframe extraction figure"><img src={localPath("images/keyframe-extraction.png")} width="1397" height="611" loading="lazy" alt="Paper figure showing a digging trajectory with selected keyframes marked as red dots" /><span class="enlarge-hint">↗ Enlarge</span></a><p class="visual-caption">The red points are the keyframes. <a href="https://par.nsf.gov/servlets/purl/10533657#page=20">Fig. 3 ↗</a></p><details class="technical-detail"><summary>Explore the learning framework <span aria-hidden="true">+</span></summary><Figure file="method-framework.png" alt="Framework connecting keyframe identification, visual representation, goal generation and hierarchical policy learning" width={1430} height={629} paperFigure={1} page={12}>Selected subgoals guide the learned motion policy.</Figure></details></div>
+<section id="data-challenge" class="data-challenge-section">
+  <div class="frame">
+    <div class="section-intro intro-grid">
+      <div><p class="eyebrow">02 / Two challenges · A / The demonstrations</p><h2>What should<br /><em>the robot keep?</em></h2></div>
+      <div class="intro-copy"><p>A recording contains more than the essential digging motion. Copying every frame also copies repetition and movements that do not help the task.</p><p>We need to identify the poses that carry the demonstration forward.</p></div>
+    </div>
+    <div class="challenge-clips">
+      {dataChallenges.map(item => <MotionFigure file={item.file} title={item.title}>{item.text}</MotionFigure>)}
+    </div>
+    <div class="challenge-takeaway"><span class="question-tag">The data question</span><p>Which poses are essential to completing the task?</p></div>
+    <p class="research-note">The keyframe method below uses task-completing demonstrations. The failed attempt illustrates a data-quality challenge.</p>
+  </div>
+</section>
+
+<section id="learning-challenge" class="learning-challenge-section frame">
+  <div class="section-intro intro-grid">
+    <div><p class="eyebrow">02 / Two challenges · B / The learning</p><h2>The scene changes.<br /><em>The goal must guide<br />the motion.</em></h2></div>
+    <div class="intro-copy"><p>Useful keyframes are only part of the problem. The robot also needs a representation of the current site and the intended outcome.</p><p>How can it connect what it sees to the actions that change the terrain?</p></div>
+  </div>
+  <div class="learning-challenge-grid">
+    <MotionFigure file="learning-challenge" title="Make the motion work.">Executing a learned motion does not guarantee a successful dig.</MotionFigure>
+    <figure class="challenge-figure">
+      <div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point-cloud reconstruction of the laboratory robot and sandbox" /></div>
+      <figcaption><strong>Represent the current site.</strong>Align visual observations with the robot’s working space.</figcaption>
+    </figure>
+    <figure class="challenge-figure">
+      <div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Observed site contour from the research presentation" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Desired site contour with an excavation depression" /><span>Desired change</span></div></div>
+      <figcaption><strong>Describe the intended result.</strong>A view of the site alone does not tell the robot what to achieve.</figcaption>
+    </figure>
+  </div>
+  <div class="challenge-takeaway"><span class="question-tag">The learning question</span><p>How can the robot learn a goal and the actions to reach it?</p></div>
+</section>
+
+<section id="method" class="method-section">
+  <div class="frame">
+    <div class="section-intro intro-grid">
+      <div><p class="eyebrow">03 / Our solution</p><h2>Keep the key poses.<br /><em>Learn the goal<br />and the motion.</em></h2></div>
+      <div class="intro-copy"><p>The framework brings the two challenges together: retain the essential poses, learn a visual state and goal, then train the actions that connect them.</p></div>
+    </div>
+    <div class="framework-modules">
+      <article><span class="module-number">01 / Keyframe modeling</span><h3>Keep the essential poses.</h3><p>Select keyframes from demonstrations to guide learning without retaining every recorded frame.</p><span class="module-answer">Responds to the data challenge</span></article>
+      <article><span class="module-number">02 / Latent state &amp; goal</span><h3>Connect vision to action.</h3><p>Encode the scene compactly, bind its representation to robot actions, and learn a goal from demonstration outcomes.</p><span class="module-answer">Responds to the learning challenge</span></article>
+      <article><span class="module-number">03 / Hierarchical learning</span><h3>Learn how to get there.</h3><p>A keyframe policy proposes subgoals. A primitive policy learns the actions that move the robot toward them.</p><span class="module-answer">Turns subgoals into robot motion</span></article>
+    </div>
+    <div class="framework-evidence">
+      <Figure file="method-framework.png" alt="Complete learning framework: keyframe identification and action-bound visual state and goal representations train a high-level subgoal policy and a low-level action policy" width={1430} height={629} paperFigure={1} page={12}>How the modules work together: demonstrations and scene observations guide subgoals, actions, and further learning.</Figure>
+    </div>
+    <div class="keyframe-proof">
+      <div class="keyframe-media"><p class="figure-label">From a demonstrated trajectory to its essential poses</p><Figure file="keyframe-extraction.png" alt="Original trajectory with the selected keyframes marked as red dots" width={1397} height={611} paperFigure={3} page={20}>The red points mark the selected keyframes.</Figure></div>
+      <div class="keyframe-proof-copy"><p class="eyebrow">Answering the data question</p><div class="keyframe-stat"><strong>&gt;80<span>%</span></strong><div>of redundant frames removed</div></div><p>The paper reports a smaller set of frames for robot training while retaining the essential trajectory information.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Keyframe extraction result ↗</a></div>
+    </div>
   </div>
 </section>
 
 <section id="results" class="results-section">
   <div class="frame">
-    <div class="intro-grid"><div><p class="eyebrow">02 / From learning to action</p><h2>Give the robot<br /><em>a goal to work toward.</em></h2></div><div class="intro-copy"><p>Excavation changes the scene after every pass. The framework uses either a target contour or a goal generated in a compact visual representation to guide the next trajectory.</p><p class="scope-label">Validated in simulation and on laboratory robotic arms.</p></div></div>
-    <div class="results-grid">
-      <div class="execution-demo" data-tabs>
-        <div class="line-tabs" role="tablist" aria-label="Excavation goal formulation"><button type="button" role="tab" id="goal-contour-tab" aria-controls="goal-contour" aria-selected="true">Target contour</button><button type="button" role="tab" id="goal-vision-tab" aria-controls="goal-vision" aria-selected="false" tabindex="-1">Visual goal</button></div>
-        <div id="goal-contour" role="tabpanel" aria-labelledby="goal-contour-tab" tabindex="0"><MotionFigure file="contour-map-goal" title="A specified terrain target.">A desired site contour supplies the excavation goal.</MotionFigure></div>
-        <div id="goal-vision" role="tabpanel" aria-labelledby="goal-vision-tab" tabindex="0" hidden><MotionFigure file="visual-latent-goal" title="A goal generated from the scene." autoplay={false}>The visual model generates a target in its learned latent space.</MotionFigure></div>
-      </div>
-      <aside class="result-evidence"><p class="eyebrow">Connecting vision and action</p><div class="success-stat"><span>40%</span><span aria-hidden="true">↗</span><strong>&gt;60%</strong></div><h3>Excavation success in the representation study.</h3><p>Binding visual features to robot actions improved success compared with a pure autoencoder.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=33">Read the experiment ↗</a><p class="scope-note">These are study results, not full-size machine or jobsite performance figures.</p></aside>
+    <div class="section-intro intro-grid">
+      <div><p class="eyebrow">04 / From method to evidence</p><h2>Two ways to set a goal.<br /><em>Two tests of learning.</em></h2></div>
+      <div class="intro-copy"><p>First, provide the terrain target. Then, learn to generate a goal from visual observations. Together, these tests examine the motion policy and the visual learning framework.</p><p class="scope-label">Laboratory demonstrations alongside simulation comparisons from the paper. The curves do not measure the individual clips.</p></div>
     </div>
-    <details class="technical-detail result-detail"><summary>See the comparison and test setup <span aria-hidden="true">+</span></summary><div class="expanded-results"><Figure file="policy-results.png" alt="Paper comparison of robot learning methods and their success rate across training timesteps" width={1371} height={607} paperFigure={8} page={28}>Learning performance compared with the paper’s baseline methods.</Figure><Figure file="paper-testbed.png" alt="The paper's laboratory excavation setup with robotic arm, sandbox, and RGB-D cameras" width={701} height={743} paperFigure={6} page={24}>The research platform used for laboratory validation.</Figure></div></details>
+    <div class="experiment-comparisons">
+      {experiments.map(experiment => <article class="experiment-case" id={`experiment-${experiment.id}`}>
+        <div class="experiment-heading"><span>{experiment.number}</span><h3>{experiment.title}</h3></div>
+        <dl class="task-definition"><div><dt>State</dt><dd>{experiment.state}</dd></div><div><dt>Goal</dt><dd>{experiment.goal}</dd></div><div><dt>Action</dt><dd>{experiment.action}</dd></div></dl>
+        <div class="experiment-media">
+          <div class="experiment-motion"><p class="media-label">Laboratory demonstration</p><MotionFigure file={experiment.file} title="The robot executes the excavation motion.">{experiment.id === "contour" ? "Guided by a desired site contour." : "Guided by a goal generated in the learned visual representation."}</MotionFigure></div>
+          <figure class="experiment-plot"><p class="media-label">Simulation comparison · Success rate over training</p><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption><span class="plot-key"><i aria-hidden="true"></i> Brown curve: full method</span><a href="https://par.nsf.gov/servlets/purl/10533657#page=28">Paper, Fig. {experiment.figure} ↗</a></figcaption></figure>
+        </div>
+        <div class="experiment-finding"><span>What this shows</span><p>{experiment.finding}</p></div>
+      </article>)}
+    </div>
+    <div class="binding-evidence">
+      <div><p class="eyebrow">Why connect vision to action?</p><h3>A compact image alone<br />is not enough.</h3></div>
+      <div class="binding-comparison" aria-label="Reported success: pure autoencoder 40 percent; action-bound representation over 60 percent"><div><strong>40%</strong><span>Pure autoencoder</span></div><span class="binding-arrow" aria-hidden="true">→</span><div><strong>&gt;60%</strong><span>Action-bound representation</span></div></div>
+      <p>In the representation study, binding visual features to robot actions improved excavation success. <a href="https://par.nsf.gov/servlets/purl/10533657#page=33">Read the study ↗</a></p>
+    </div>
+    <p class="validation-boundary">Demonstrated in simulation and on laboratory robotic arms. Performance still depends on demonstration quality; unfamiliar site conditions remain a generalization challenge.</p>
   </div>
 </section>
-
 <section id="applications" class="applications-section frame">
-  <div class="section-intro"><p class="eyebrow">03 / Where this could lead</p><div class="intro-grid"><h2>One learned skill.<br /><em>A wider field of work.</em></h2><div class="intro-copy"><p>The contribution is a way to learn construction motions from people. Adapting that approach opens questions beyond a single dig.</p><p class="scope-label">Research directions · Each needs its own hardware, sensing, and validation.</p></div></div></div>
+  <div class="section-intro"><p class="eyebrow">05 / Where this could lead</p><div class="intro-grid"><h2>One learned skill.<br /><em>A wider field of work.</em></h2><div class="intro-copy"><p>The contribution is a way to learn construction motions from people. Adapting that approach opens questions beyond a single dig.</p><p class="scope-label">Research directions · Each needs its own hardware, sensing, and validation.</p></div></div></div>
   <div class="application-explorer" data-tabs>
     <div class="application-tabs" role="tablist" aria-label="Potential applications">
       {applications.map((app, i) => <button type="button" id={`application-${app.id}-tab`} role="tab" aria-controls={`application-${app.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}><span>{app.number}</span>{app.label}<span aria-hidden="true">↗</span></button>)}
