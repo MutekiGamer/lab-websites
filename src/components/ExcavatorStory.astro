@@ -46,34 +46,30 @@ const experiments = [
 <section id="data-challenge" class="data-challenge-section">
   <div class="frame">
     <div class="section-intro intro-grid">
-      <div><p class="eyebrow">02 / Two challenges · A / The demonstrations</p><h2>What should<br /><em>the robot keep?</em></h2></div>
-      <div class="intro-copy"><p>A recording contains more than the essential digging motion. Copying every frame also copies repetition and movements that do not help the task.</p><p>We need to identify the poses that carry the demonstration forward.</p></div>
+      <div><p class="eyebrow">Challenge A / Demonstration quality</p><h2>Human demonstrations<br /><em>are noisy and redundant.</em></h2></div>
+      <div class="intro-copy"><p>An operator may pause, repeat a movement, or make motions unrelated to the task. The recording captures all of them.</p><p>These extra frames increase the training burden and obscure the motions needed to complete a dig.</p></div>
     </div>
     <div class="challenge-clips">
       {dataChallenges.map(item => <MotionFigure file={item.file} title={item.title}>{item.text}</MotionFigure>)}
     </div>
-    <div class="challenge-takeaway"><span class="question-tag">The data question</span><p>Which poses are essential to completing the task?</p></div>
+    <div class="challenge-takeaway"><span class="question-tag">Our research question</span><p>Which poses are essential to completing the task?</p></div>
     <p class="research-note">The keyframe method below uses task-completing demonstrations. The failed attempt illustrates a data-quality challenge.</p>
   </div>
 </section>
 
 <section id="learning-challenge" class="learning-challenge-section frame">
   <div class="section-intro intro-grid">
-    <div><p class="eyebrow">02 / Two challenges · B / The learning</p><h2>The scene changes.<br /><em>The goal must guide<br />the motion.</em></h2></div>
-    <div class="intro-copy"><p>Useful keyframes are only part of the problem. The robot also needs a representation of the current site and the intended outcome.</p><p>How can it connect what it sees to the actions that change the terrain?</p></div>
+    <div><p class="eyebrow">Challenge B / Reliable robot learning</p><h2>Learning a motion<br /><em>does not guarantee<br />reliable execution.</em></h2></div>
+    <div class="intro-copy"><p>A recorded motion alone does not connect the current scene, the task goal, and the actions needed to reach it.</p><p>Visual observations add complexity: redundant detail can slow learning, while compression can lose information needed for control.</p></div>
   </div>
-  <div class="learning-challenge-grid">
-    <MotionFigure file="learning-challenge" title="Make the motion work.">Executing a learned motion does not guarantee a successful dig.</MotionFigure>
-    <figure class="challenge-figure">
-      <div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point-cloud reconstruction of the laboratory robot and sandbox" /></div>
-      <figcaption><strong>Represent the current site.</strong>Align visual observations with the robot’s working space.</figcaption>
-    </figure>
-    <figure class="challenge-figure">
-      <div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Observed site contour from the research presentation" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Desired site contour with an excavation depression" /><span>Desired change</span></div></div>
-      <figcaption><strong>Describe the intended result.</strong>A view of the site alone does not tell the robot what to achieve.</figcaption>
+  <div class="learning-observations">
+    <MotionFigure file="learning-challenge" title="Unreliable task execution.">The laboratory example illustrates the gap between moving the robot and completing a dig.</MotionFigure>
+    <figure class="challenge-figure observation-evidence">
+      <div class="observation-image"><img src={localPath("images/research/observed-site.png")} width="697" height="705" loading="lazy" alt="Unaligned point-cloud observation of the laboratory robot and sandbox, with fragmented geometry" /></div>
+      <figcaption><strong>Complex visual observations.</strong>A point cloud contains detail about both the robot and the site. The learning system must retain the information that matters for control.</figcaption>
     </figure>
   </div>
-  <div class="challenge-takeaway"><span class="question-tag">The learning question</span><p>How can the robot learn a goal and the actions to reach it?</p></div>
+  <div class="challenge-takeaway"><span class="question-tag">Our research question</span><p>How can visual states and task goals guide reliable robot action?</p></div>
 </section>
 
 <section id="method" class="method-section">
@@ -83,9 +79,9 @@ const experiments = [
       <div class="intro-copy"><p>The framework brings the two challenges together: retain the essential poses, learn a visual state and goal, then train the actions that connect them.</p></div>
     </div>
     <div class="framework-modules">
-      <article><span class="module-number">01 / Keyframe modeling</span><h3>Keep the essential poses.</h3><p>Select keyframes from demonstrations to guide learning without retaining every recorded frame.</p><span class="module-answer">Responds to the data challenge</span></article>
-      <article><span class="module-number">02 / Latent state &amp; goal</span><h3>Connect vision to action.</h3><p>Encode the scene compactly, bind its representation to robot actions, and learn a goal from demonstration outcomes.</p><span class="module-answer">Responds to the learning challenge</span></article>
-      <article><span class="module-number">03 / Hierarchical learning</span><h3>Learn how to get there.</h3><p>A keyframe policy proposes subgoals. A primitive policy learns the actions that move the robot toward them.</p><span class="module-answer">Turns subgoals into robot motion</span></article>
+      <article><span class="module-number">01 / Keyframe modeling</span><h3>Keep the essential poses.</h3><p>Select keyframes from demonstrations to guide learning without retaining every recorded frame.</p><span class="module-answer">Addresses challenge A</span></article>
+      <article><span class="module-number">02 / Latent state &amp; goal</span><h3>Connect vision to action.</h3><p>Encode the scene compactly, bind its representation to robot actions, and learn a goal from demonstration outcomes.</p><span class="module-answer">Addresses challenge B: state and goal</span></article>
+      <article><span class="module-number">03 / Hierarchical learning</span><h3>Learn how to get there.</h3><p>A keyframe policy proposes subgoals. A primitive policy learns the actions that move the robot toward them.</p><span class="module-answer">Addresses challenge B: robot action</span></article>
     </div>
     <div class="framework-evidence">
       <Figure file="method-framework.png" alt="Complete learning framework: keyframe identification and action-bound visual state and goal representations train a high-level subgoal policy and a low-level action policy" width={1430} height={629} paperFigure={1} page={12}>How the modules work together: demonstrations and scene observations guide subgoals, actions, and further learning.</Figure>
@@ -93,6 +89,13 @@ const experiments = [
     <div class="keyframe-proof">
       <div class="keyframe-media"><p class="figure-label">From a demonstrated trajectory to its essential poses</p><Figure file="keyframe-extraction.png" alt="Original trajectory with the selected keyframes marked as red dots" width={1397} height={611} paperFigure={3} page={20}>The red points mark the selected keyframes.</Figure></div>
       <div class="keyframe-proof-copy"><p class="eyebrow">Answering the data question</p><div class="keyframe-stat"><strong>&gt;80<span>%</span></strong><div>of redundant frames removed</div></div><p>The paper reports a smaller set of frames for robot training while retaining the essential trajectory information.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Keyframe extraction result ↗</a></div>
+    </div>
+    <div class="visual-method" id="visual-method">
+      <div class="visual-method-copy"><p class="eyebrow">Answering the learning question</p><h3>From visual observations<br />to a task goal.</h3><p>Align the scene with the robot’s working space, then encode it in a compact representation linked to robot actions. Initial and final observations from demonstrations train the goal-generation model.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=22">Visual representation and goal generation ↗</a></div>
+      <div class="visual-method-figures">
+        <figure class="challenge-figure"><div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point-cloud reconstruction aligned with the laboratory robot’s working space" /></div><figcaption><strong>Aligned observations.</strong>Calibration places the scene in a consistent spatial frame.</figcaption></figure>
+        <figure class="challenge-figure"><div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Current site contour from the research testbed" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Target site contour with an excavation depression" /><span>Target contour</span></div></div><figcaption><strong>State and goal.</strong>The contour views illustrate the current terrain and the intended outcome.</figcaption></figure>
+      </div>
     </div>
   </div>
 </section>

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02",
+  "updated": "2026-11-04",
   "featuredPaper": {
     "doi": "10.1061/JCCEE5.CPENG-5884",
     "manuscript": "https://par.nsf.gov/servlets/purl/10533657",
@@ -54,12 +54,20 @@
         "claim": "Imitation learning remains limited by demonstration quality and generalization to unobserved situations.",
         "page": 33,
         "scope": "The failed-motion example motivates the data challenge; it is not presented as evidence that the keyframe method recovers successful training trajectories from arbitrary failures."
+      },
+      {
+        "claim": "Direct visual input can introduce redundancy and slow convergence; conventional dimensionality reduction may omit details required for downstream models.",
+        "pages": [
+          21,
+          22
+        ],
+        "scope": "Motivation for the visual learning challenge. No numerical error or specific failure mechanism is inferred from the point-cloud illustration or the laboratory video."
       }
     ]
   },
   "referenceDecks": {
     "research": "Robotic Excavator 1.pptx",
-    "narrative": "Teleoperation supplies demonstrations → data challenge (redundant, irrelevant, failed examples) → learning challenge (success, calibrated observations, goal generation) → keyframe modeling, action-bound latent state/goal and hierarchical learning → two visible State/Goal/Action experiments with original comparison curves.",
+    "narrative": "Teleoperation supplies demonstrations → challenge A: noisy and redundant data, observed examples, research question → challenge B: unreliable execution and complex visual observations, research question → method explicitly addresses A and B → experiments → potential extensions.",
     "publishedVideoMappings": {
       "operator-control.mp4": "Slide 2, image3.gif",
       "teleoperation-testbed.mp4": "Slide 2, image2.gif",
@@ -80,7 +88,12 @@
       "research/site-contour.png": "Slide 4, image16.png; original current site contour",
       "research/target-contour.png": "Slide 4, image17.png; original target contour",
       "research/specified-goal-results.png": "Slide 6, image26.png; matches paper Fig. 8a",
-      "research/visual-goal-results.png": "Slide 6, image27.png; matches paper Fig. 8b"
+      "research/visual-goal-results.png": "Slide 6, image27.png; matches paper Fig. 8b",
+      "research/observed-site.png": "Slide 4, image11.png; unaligned point-cloud observation used to illustrate the learning input, not a model output."
+    },
+    "presentationRoles": {
+      "challenges": "Declarative problem statements, observational evidence and a separate research question. No calibration/goal-generation process diagram in the challenge sections.",
+      "method": "Calibrated point-cloud and state/goal contour illustrations appear only in the method section. The contour pair illustrates state and goal, not a measured prediction from the model."
     }
   },
   "applications": {
