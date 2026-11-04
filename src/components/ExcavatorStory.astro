@@ -11,14 +11,14 @@ const dataChallenges = [
 ];
 const experiments = [
   {
-    id: "contour", number: "01", title: "When the target is specified.",
+    id: "contour", title: "With a specified terrain target.", setup: "specified terrain goal",
     state: "Site contour map", goal: "Desired site contour map", action: "Robot trajectory",
     file: "contour-map-goal", image: "specified-goal-results.png", width: 2834, height: 2158,
     figure: "8a", alt: "Success-rate comparison with a manually specified goal; the full method outperforms the plotted baselines and the version without the primitive policy",
     finding: "The full policy outperforms the compared baselines, including the version without the primitive policy. Learning the motions between subgoals matters.",
   },
   {
-    id: "vision", number: "02", title: "When the goal comes from vision.",
+    id: "vision", title: "With a goal generated from vision.", setup: "generated visual goal",
     state: "Calibrated visual observations", goal: "Generated latent goal", action: "Robot trajectory",
     file: "visual-latent-goal", image: "visual-goal-results.png", width: 840, height: 642,
     figure: "8b", alt: "Success-rate comparison using visual goals; the full method outperforms the plotted baselines and the version without action binding",
@@ -85,10 +85,6 @@ const experiments = [
     <div class="framework-evidence">
       <Figure file="method-framework.png" alt="Complete learning framework: keyframe identification and action-bound visual state and goal representations train a high-level subgoal policy and a low-level action policy" width={1430} height={629} paperFigure={1} page={12}>How the modules work together: demonstrations and scene observations guide subgoals, actions, and further learning.</Figure>
     </div>
-    <div class="keyframe-proof">
-      <div class="keyframe-media"><p class="figure-label">From a demonstrated trajectory to its essential poses</p><Figure file="keyframe-extraction.png" alt="Original trajectory with the selected keyframes marked as red dots" width={1397} height={611} paperFigure={3} page={20}>The red points mark the selected keyframes.</Figure></div>
-      <div class="keyframe-proof-copy"><p class="eyebrow">Answering the data question</p><div class="keyframe-stat"><strong>&gt;80<span>%</span></strong><div>of redundant frames removed</div></div><p>The paper reports a smaller set of frames for robot training while retaining the essential trajectory information.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Keyframe extraction result ↗</a></div>
-    </div>
     <div class="visual-method" id="visual-method">
       <div class="visual-method-copy"><p class="eyebrow">Answering the learning question</p><h3>From visual observations<br />to a task goal.</h3><p>Align the scene with the robot’s working space, then encode it in a compact representation linked to robot actions. Initial and final observations from demonstrations train the goal-generation model.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=22">Visual representation and goal generation ↗</a></div>
       <div class="visual-method-figures">
@@ -102,25 +98,49 @@ const experiments = [
 <section id="results" class="results-section">
   <div class="frame">
     <div class="section-intro intro-grid">
-      <div><p class="eyebrow">04 / From method to evidence</p><h2>Two ways to set a goal.<br /><em>Two tests of learning.</em></h2></div>
-      <div class="intro-copy"><p>First, provide the terrain target. Then, learn to generate a goal from visual observations. Together, these tests examine the motion policy and the visual learning framework.</p><p class="scope-label">Laboratory demonstrations alongside simulation comparisons from the paper. The curves do not measure the individual clips.</p></div>
+      <div><p class="eyebrow">04 / Results</p><h2>Less redundant data.<br /><em>More successful<br />excavation.</em></h2></div>
+      <div class="intro-copy"><p>The studies show what the framework achieves: a smaller set of demonstration frames, higher task success than the compared methods, and better performance when visual features are linked to robot actions.</p></div>
     </div>
-    <div class="experiment-comparisons">
-      {experiments.map(experiment => <article class="experiment-case" id={`experiment-${experiment.id}`}>
-        <div class="experiment-heading"><span>{experiment.number}</span><h3>{experiment.title}</h3></div>
-        <dl class="task-definition"><div><dt>State</dt><dd>{experiment.state}</dd></div><div><dt>Goal</dt><dd>{experiment.goal}</dd></div><div><dt>Action</dt><dd>{experiment.action}</dd></div></dl>
-        <div class="experiment-media">
-          <div class="experiment-motion"><p class="media-label">Laboratory demonstration</p><MotionFigure file={experiment.file} title="The robot executes the excavation motion.">{experiment.id === "contour" ? "Guided by a desired site contour." : "Guided by a goal generated in the learned visual representation."}</MotionFigure></div>
-          <figure class="experiment-plot"><p class="media-label">Simulation comparison · Success rate over training</p><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption><span class="plot-key"><i aria-hidden="true"></i> Brown curve: full method</span><a href="https://par.nsf.gov/servlets/purl/10533657#page=28">Paper, Fig. {experiment.figure} ↗</a></figcaption></figure>
-        </div>
-        <div class="experiment-finding"><span>What this shows</span><p>{experiment.finding}</p></div>
-      </article>)}
-    </div>
-    <div class="binding-evidence">
-      <div><p class="eyebrow">Why connect vision to action?</p><h3>A compact image alone<br />is not enough.</h3></div>
+
+    <article class="result-block keyframe-proof" id="result-keyframes" aria-labelledby="keyframe-result-title">
+      <div class="keyframe-proof-copy">
+        <p class="eyebrow">01 / Demonstration quality</p>
+        <h3 id="keyframe-result-title">Essential poses,<br />fewer frames.</h3>
+        <div class="keyframe-stat"><strong>&gt;80<span>%</span></strong><div>of redundant frames removed</div></div>
+        <p>The keyframe extraction study reports a smaller set of frames for robot training while retaining essential trajectory information.</p>
+        <a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Read the reported result ↗</a>
+      </div>
+      <div class="keyframe-media"><p class="figure-label">Trajectory with selected keyframes</p><Figure file="keyframe-extraction.png" alt="Original trajectory with the selected keyframes marked as red dots" width={1397} height={611} paperFigure={3} page={20}>The red points mark the selected keyframes.</Figure></div>
+    </article>
+
+    <article class="result-block" id="result-task-performance" aria-labelledby="task-result-title">
+      <div class="result-heading">
+        <p class="eyebrow">02 / Task performance</p>
+        <h3 id="task-result-title">Higher success on the excavation task.</h3>
+        <p class="result-summary">Across both goal settings in the simulation study, the proposed method achieved the highest success rate among the methods compared.</p>
+      </div>
+      <p class="scope-label">The laboratory clips show task execution. The success-rate curves summarize separate simulation trials.</p>
+      <div class="experiment-comparisons">
+        {experiments.map(experiment => <section class="experiment-case" id={`experiment-${experiment.id}`} aria-labelledby={`experiment-${experiment.id}-title`}>
+          <h4 id={`experiment-${experiment.id}-title`}>{experiment.title}</h4>
+          <p class="experiment-summary">{experiment.finding}</p>
+          <div class="experiment-media">
+            <div class="experiment-motion"><p class="media-label">Laboratory demonstration</p><MotionFigure file={experiment.file} title="The robot executes the excavation motion.">{experiment.id === "contour" ? "Guided by a desired site contour." : "Guided by a goal generated in the learned visual representation."}</MotionFigure></div>
+            <figure class="experiment-plot"><p class="media-label">Simulation comparison · Success rate over training</p><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption><span class="plot-key"><i aria-hidden="true"></i> Brown curve: full method</span><a href="https://par.nsf.gov/servlets/purl/10533657#page=28">Paper, Fig. {experiment.figure} ↗</a></figcaption></figure>
+          </div>
+          <details class="technical-detail experiment-setup">
+            <summary>Test setup: {experiment.setup}<span aria-hidden="true">+</span></summary>
+            <dl class="task-definition"><div><dt>State</dt><dd>{experiment.state}</dd></div><div><dt>Goal</dt><dd>{experiment.goal}</dd></div><div><dt>Action</dt><dd>{experiment.action}</dd></div></dl>
+          </details>
+        </section>)}
+      </div>
+    </article>
+
+    <article class="result-block binding-evidence" id="result-visual-representation" aria-labelledby="binding-result-title">
+      <div><p class="eyebrow">03 / Visual representation</p><h3 id="binding-result-title">Linking vision to action<br />improves success.</h3></div>
       <div class="binding-comparison" aria-label="Reported success: pure autoencoder 40 percent; action-bound representation over 60 percent"><div><strong>40%</strong><span>Pure autoencoder</span></div><span class="binding-arrow" aria-hidden="true">→</span><div><strong>&gt;60%</strong><span>Action-bound representation</span></div></div>
-      <p>In the representation study, binding visual features to robot actions improved excavation success. <a href="https://par.nsf.gov/servlets/purl/10533657#page=33">Read the study ↗</a></p>
-    </div>
+      <p>The representation study reports this improvement in excavation success when visual features are bound to robot actions, compared with a pure autoencoder. <a href="https://par.nsf.gov/servlets/purl/10533657#page=33">Read the representation study ↗</a></p>
+    </article>
     <p class="validation-boundary">Demonstrated in simulation and on laboratory robotic arms. Performance still depends on demonstration quality; unfamiliar site conditions remain a generalization challenge.</p>
   </div>
 </section>

@@ -35,7 +35,7 @@
         "scope": "No full-size excavator deployment claimed."
       },
       {
-        "claim": "Fig. 8a tests manually specified goals without latent state representation; Fig. 8b tests visual latent goals. The latter has a slightly lower success rate but does not require the final goal to be specified manually.",
+        "claim": "The proposed method achieves the highest success rate among the compared methods in the two Fig. 8 settings. Fig. 8a tests manually specified goals without latent state representation; Fig. 8b tests visual latent goals. The latter has a slightly lower success rate but does not require the final goal to be specified manually.",
         "page": 28,
         "scope": "The comparison curves are simulation benchmarks. Adjacent videos are laboratory demonstrations, not the individual trials used to compute the curves."
       },
@@ -67,7 +67,7 @@
   },
   "referenceDecks": {
     "research": "Robotic Excavator 1.pptx",
-    "narrative": "Starting point: human-controlled digging supplies recorded demonstrations → challenge A: noisy and redundant data, observed examples, research question → challenge B: unreliable execution and complex visual observations, research question → method explicitly addresses A and B → experiments → potential extensions. The opening establishes the operating situation and data collection; specific learning methods are introduced in the solution section.",
+    "narrative": "Starting point: human-controlled digging supplies recorded demonstrations → challenge A: noisy and redundant data, observed examples, research question → challenge B: unreliable execution and complex visual observations, research question → method explicitly addresses A and B → results organized by findings (fewer frames, task success, visual representation), with supporting evidence and secondary test setup → potential extensions. The opening establishes the operating situation and data collection; specific learning methods are introduced in the solution section.",
     "publishedVideoMappings": {
       "operator-control.mp4": "Slide 2, image3.gif",
       "teleoperation-testbed.mp4": "Slide 2, image2.gif",
@@ -93,7 +93,8 @@
     },
     "presentationRoles": {
       "challenges": "Declarative problem statements, observational evidence and a separate research question. No calibration/goal-generation process diagram in the challenge sections.",
-      "method": "Calibrated point-cloud and state/goal contour illustrations appear only in the method section. The contour pair illustrates state and goal, not a measured prediction from the model."
+      "method": "Framework, calibrated point-cloud and state/goal contour illustrations explain the solution. The contour pair illustrates state and goal, not a measured prediction from the model. Quantitative outcomes and the keyframe extraction illustration are grouped in Results.",
+      "results": "Three findings lead: reduction of redundant demonstration frames, excavation success compared with tested methods, and the benefit of binding vision to action. Each finding precedes its evidence. Goal-setting conditions remain under task performance; State/Goal/Action setup is available in disclosure panels. Laboratory clips and simulation curves remain explicitly distinguished."
     }
   },
   "applications": {
