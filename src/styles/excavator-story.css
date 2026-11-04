@@ -47,7 +47,7 @@
 .excavator-story .motion-figure video { border-radius:0; aspect-ratio:16/10; background:#242720; }
 .excavator-story .motion-figure figcaption,.excavator-story .challenge-figure figcaption { text-align:left; margin:16px 0 0; color:var(--muted); font-size:13px; line-height:1.6; max-width:none; }
 .excavator-story .motion-figure figcaption strong,.challenge-figure figcaption strong { display:block; color:var(--ink); font-size:18px; font-weight:550; margin-bottom:6px; }
-.learning-route { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); list-style:none; padding:27px 0 0; margin:38px 0 0; border-top:1px solid var(--line); gap:26px; }
+.learning-route { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); list-style:none; padding:27px 0 0; margin:38px 0 0; border-top:1px solid var(--line); gap:26px; }
 .learning-route li { display:flex; align-items:start; gap:13px; }
 .learning-route li > span { color:var(--muted); font-size:10px; padding-top:4px; }
 .learning-route strong { font-size:16px; font-weight:600; }

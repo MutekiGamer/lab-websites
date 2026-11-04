@@ -29,17 +29,16 @@ const experiments = [
 
 <section id="research" class="research-section frame">
   <div class="section-intro intro-grid">
-    <div><p class="eyebrow">01 / From teleoperation to autonomy</p><h2>Start with<br /><em>the operator.</em></h2></div>
-    <div class="intro-copy"><p>An operator already knows how to dig. Teleoperation lets them guide the robot while the system records the motion and the scene.</p><p>Those demonstrations become training data. The next step is to teach the robot to reach a goal on its own.</p></div>
+    <div><p class="eyebrow">01 / The starting point</p><h2>The robot digs<br /><em>under human control.</em></h2></div>
+    <div class="intro-copy"><p>Through teleoperation, an operator guides the robot’s digging motion. The system records robot states and visual observations as the task is performed.</p><p>These recordings become demonstrations for robot learning. Turning them into reliable autonomous behavior presents two challenges.</p></div>
   </div>
   <div id="demonstrations" class="operator-demonstrations">
-    <MotionFigure file="operator-control" title="Human experience, demonstrated.">The operator controls the laboratory robot through teleoperation.</MotionFigure>
-    <MotionFigure file="teleoperation-testbed" title="Motion and scene, recorded together.">The testbed captures robot states alongside visual observations.</MotionFigure>
+    <MotionFigure file="operator-control" title="Human-controlled digging.">The operator guides the laboratory robot through teleoperation.</MotionFigure>
+    <MotionFigure file="teleoperation-testbed" title="Recorded demonstrations.">Robot states and visual observations are captured together during the task.</MotionFigure>
   </div>
-  <ol class="learning-route" aria-label="Research progression">
-    <li><span>01</span><div><strong>Demonstration</strong><p>An operator performs the task.</p></div><b aria-hidden="true">→</b></li>
-    <li><span>02</span><div><strong>Learning</strong><p>Extract keyframes. Learn goals and actions.</p></div><b aria-hidden="true">→</b></li>
-    <li><span>03</span><div><strong>Autonomy</strong><p>The robot generates the task motion.</p></div></li>
+  <ol class="learning-route" aria-label="From teleoperation to demonstrations">
+    <li><span>01</span><div><strong>Teleoperation</strong><p>The operator guides the task.</p></div><b aria-hidden="true">→</b></li>
+    <li><span>02</span><div><strong>Recorded demonstrations</strong><p>Motion and scene become training data.</p></div></li>
   </ol>
 </section>
 

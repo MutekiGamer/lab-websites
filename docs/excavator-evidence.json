@@ -67,7 +67,7 @@
   },
   "referenceDecks": {
     "research": "Robotic Excavator 1.pptx",
-    "narrative": "Teleoperation supplies demonstrations → challenge A: noisy and redundant data, observed examples, research question → challenge B: unreliable execution and complex visual observations, research question → method explicitly addresses A and B → experiments → potential extensions.",
+    "narrative": "Starting point: human-controlled digging supplies recorded demonstrations → challenge A: noisy and redundant data, observed examples, research question → challenge B: unreliable execution and complex visual observations, research question → method explicitly addresses A and B → experiments → potential extensions. The opening establishes the operating situation and data collection; specific learning methods are introduced in the solution section.",
     "publishedVideoMappings": {
       "operator-control.mp4": "Slide 2, image3.gif",
       "teleoperation-testbed.mp4": "Slide 2, image2.gif",
