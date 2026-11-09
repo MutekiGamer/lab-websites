@@ -28,7 +28,7 @@
 .excavator-story main > section + section { border-top:1px solid var(--line); }
 .operator-demonstrations, .experiment-comparisons { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:36px; }
 .excavator-story .motion-figure video { border-radius:0; aspect-ratio:16/10; background:#242720; }
-.excavator-story :is(.motion-figure,.research-figure,.challenge-figure) figcaption { text-align:left; margin:16px 0 0; color:var(--muted); line-height:1.65; max-width:none; }
+.excavator-story :is(.motion-figure,.research-figure,.method-visual) figcaption { text-align:left; margin:16px 0 0; color:var(--muted); line-height:1.65; max-width:none; }
 .excavator-story figcaption strong { display:block; color:var(--ink); font-weight:650; margin-bottom:6px; }
 .challenge-columns { display:grid; grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr); gap:24px; }
 .challenge-column { min-width:0; }
@@ -44,15 +44,12 @@
 .framework-evidence { padding:24px; background:#fff; }
 .excavator-story .research-figure { margin:0; }
 .excavator-story .research-figure img { width:100%; height:auto; background:#fff; }
-.framework-modules { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; margin-block:30px 44px; }
-.framework-modules article { border-top:1px solid var(--line); padding-top:20px; }
-.framework-modules h3 { margin-bottom:10px; }
-.excavator-story .framework-modules p { color:var(--muted); margin:0; }
-.visual-method-figures { display:grid; grid-template-columns:1fr 1.5fr; gap:36px; }
-.challenge-figure { min-width:0; margin:0; }
-.challenge-still,.terrain-pair { height:280px; background:#fff; display:flex; align-items:center; justify-content:center; padding:20px; }
-.challenge-still img { width:100%; height:100%; object-fit:contain; }
-.terrain-pair { gap:18px; }
+.visual-method-figures { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr); gap:36px; margin-top:36px; }
+.method-visual { min-width:0; margin:0; padding-top:20px; border-top:1px solid var(--line); }
+.excavator-story .method-visual h3 { margin:0 0 18px; }
+.scene-observation,.terrain-pair { height:280px; background:#fff; display:flex; align-items:center; justify-content:center; padding:20px; }
+.scene-observation img { width:100%; height:100%; object-fit:contain; }
+.terrain-pair { gap:12px; }
 .terrain-pair > div { flex:1; min-width:0; text-align:center; }
 .terrain-pair img { display:block; width:100%; height:200px; object-fit:contain; }
 .terrain-pair > div > span { display:block; margin-top:10px; }
@@ -107,13 +104,13 @@
   .excavator-story .vision-content { padding-block:60px 100px; }
   .excavator-story main > section, .excavator-story .research-section { padding-block:56px; }
   .excavator-story h2 { margin-bottom:28px; }
-  .operator-demonstrations,.experiment-comparisons,.framework-modules,.visual-method-figures,.space-application,.challenge-columns { grid-template-columns:minmax(0,1fr); gap:30px; }
+  .operator-demonstrations,.experiment-comparisons,.visual-method-figures,.space-application,.challenge-columns { grid-template-columns:minmax(0,1fr); gap:30px; }
   .challenge-connection { flex-direction:row; justify-content:flex-start; text-align:left; gap:16px; }
   .challenge-connection > span { transform:rotate(90deg); border:0; padding:0; width:auto; }
   .challenge-column h3 { margin-bottom:10px; }
   .framework-evidence { padding:14px; }
-  .framework-modules { margin-block:26px 34px; gap:22px; }
-  .challenge-still,.terrain-pair { height:260px; }
+  .visual-method-figures { margin-top:28px; }
+  .scene-observation,.terrain-pair { height:260px; }
   .terrain-pair { gap:10px; padding:16px; }
   .terrain-pair img { height:170px; }
   .keyframe-proof { margin-bottom:30px; }

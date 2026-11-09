@@ -27,7 +27,7 @@ const experiments = [
 <section id="research" class="research-section frame">
   <h2>The robot digs under human control.</h2>
   <div id="demonstrations" class="operator-demonstrations">
-    <MotionFigure file="operator-control" title="Teleoperation.">An operator guides the robot through a digging task.</MotionFigure>
+    <MotionFigure file="operator-control" title="Teleoperation.">We developed this robotic excavation testbed to collect operator demonstrations.</MotionFigure>
     <MotionFigure file="teleoperation-testbed" title="Demonstration collection.">Robot states and visual observations are recorded together for learning.</MotionFigure>
   </div>
 </section>
@@ -59,17 +59,24 @@ const experiments = [
   <h2>Our solution learns from keyframes and visual goals.</h2>
   <div class="framework-evidence">
     <Figure file="method-framework.png" alt="Keyframe selection and action-bound visual representations guide a high-level subgoal policy and a low-level action policy" width={1430} height={629}>
-      <span class="framework-caption">Demonstrations and scene observations provide the training inputs; the learned policies generate robot actions.</span>
+      <span class="framework-caption">Keyframes and visual goals guide two policies: one chooses subgoals, the other generates actions.</span>
     </Figure>
   </div>
-  <div class="framework-modules">
-    <article><h3>Select useful demonstration frames.</h3><p>Keyframe selection reduces redundant data while retaining the poses that guide the task.</p></article>
-    <article><h3>Represent the scene and its goal.</h3><p>A compact visual representation preserves information relevant to robot actions and supports goal generation.</p></article>
-    <article><h3>Learn the actions between subgoals.</h3><p>A high-level policy proposes subgoals; a low-level policy learns how to reach them.</p></article>
-  </div>
-  <div class="visual-method-figures">
-    <figure class="challenge-figure"><div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point cloud aligned with the robot’s working space" /></div><figcaption><strong>Align observations with the robot.</strong>Calibration places the scene in the robot’s working coordinate frame before visual encoding.</figcaption></figure>
-    <figure class="challenge-figure"><div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Current terrain contour" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Desired terrain contour with an excavation depression" /><span>Target contour</span></div></div><figcaption><strong>Learn the intended change.</strong>Initial and final demonstration observations train goal generation. These contours illustrate the state–goal relationship.</figcaption></figure>
+  <div class="visual-method-figures" role="group" aria-label="Visual state and goal used in the method">
+    <figure class="method-visual" aria-labelledby="visual-input-title">
+      <h3 id="visual-input-title">Visual input</h3>
+      <div class="scene-observation"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point cloud aligned with the robot’s working space" /></div>
+      <figcaption>Align the observed scene with the robot’s coordinate frame.</figcaption>
+    </figure>
+    <figure class="method-visual" aria-labelledby="excavation-goal-title">
+      <h3 id="excavation-goal-title">Excavation goal</h3>
+      <div class="terrain-pair">
+        <div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Current terrain contour" /><span>Current terrain</span></div>
+        <span class="terrain-arrow" aria-hidden="true">→</span>
+        <div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Desired terrain contour with an excavation depression" /><span>Target terrain</span></div>
+      </div>
+      <figcaption>Current and target contours describe the desired terrain change.</figcaption>
+    </figure>
   </div>
 </section>
 
