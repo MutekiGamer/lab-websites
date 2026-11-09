@@ -62,7 +62,7 @@
 .technical-detail summary { padding-block:20px; display:flex; justify-content:space-between; align-items:center; gap:24px; list-style:none; font-weight:600; }
 .technical-detail summary::-webkit-details-marker { display:none; }
 .technical-detail[open] summary > span { transform:rotate(45deg); }
-.simulation-evidence { margin-top:24px; }
+.simulation-evidence { margin-top:24px; padding-top:24px; border-top:1px solid var(--line); }
 .experiment-plot { margin:0 0 24px; }
 .experiment-plot .figure-link { background:#fff; padding:12px; }
 .experiment-plot img { width:100%; height:auto; }

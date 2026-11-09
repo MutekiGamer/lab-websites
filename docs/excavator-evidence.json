@@ -67,7 +67,7 @@
   },
   "referenceDecks": {
     "research": "Robotic Excavator 1.pptx",
-    "narrative": "Human-controlled excavation and demonstration collection → paired data and learning challenges, linked by the effect of demonstration quality on learning → keyframe and visual-goal solution → qualitative improvements with laboratory demonstrations and optional simulation curves → proposed extension to single-arm lunar excavation → featured Best Paper only.",
+    "narrative": "Human-controlled excavation and demonstration collection → paired data and learning challenges, linked by the effect of demonstration quality on learning → keyframe and visual-goal solution → qualitative improvements with laboratory demonstrations and visible simulation curves → proposed extension to single-arm lunar excavation → featured Best Paper only.",
     "publishedVideoMappings": {
       "operator-control.mp4": "Slide 2, image3.gif",
       "teleoperation-testbed.mp4": "Slide 2, image2.gif",
@@ -93,7 +93,7 @@
     "presentationRoles": {
       "challenges": "Side-by-side data and learning challenges. Tabs preserve all three demonstration-quality clips. The connector states that poor demonstrations make reliable learning harder, not that data quality is the sole cause. Complex observations are mentioned in text only. No research-question callouts.",
       "method": "Framework overview with one concise policy explanation, followed by two image-led blocks: Visual input pairs scene alignment with the calibrated point cloud; Excavation goal pairs the desired terrain change with current and target contours. The former three-column prose summary is removed.",
-      "results": "Qualitative findings; no headline percentages. Keyframe figure and laboratory clips stay visible. Original simulation curves remain optional in disclosure panels with their original axes, and are distinguished from laboratory footage. No paper figure citations in the UI.",
+      "results": "Qualitative findings; no headline percentages. Keyframe figure, demonstration clips, and both original simulation comparison charts are directly visible. Charts sit below the corresponding demonstration with a Simulation comparison heading and retain click-to-enlarge. No paper figure citations in the UI.",
       "research": "The teleoperation caption identifies the robotic excavation testbed as developed by the team; both introductory clips show this platform and demonstration collection."
     }
   },

@@ -88,10 +88,10 @@ const experiments = [
   <div class="experiment-comparisons" id="result-task-performance">
     {experiments.map(experiment => <article class="experiment-case" id={`experiment-${experiment.id}`}>
       <MotionFigure file={experiment.file} title={experiment.title}>{experiment.finding}</MotionFigure>
-      <details class="technical-detail simulation-evidence">
-        <summary>Simulation comparison <span aria-hidden="true">+</span></summary>
+      <div class="simulation-evidence">
+        <h3>Simulation comparison</h3>
         <figure class="experiment-plot"><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge simulation comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption>Brown curve: proposed method.</figcaption></figure>
-      </details>
+      </div>
     </article>)}
   </div>
 </section>
