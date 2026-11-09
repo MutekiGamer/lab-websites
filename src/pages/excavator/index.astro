@@ -5,7 +5,6 @@ import "../../styles/excavator-story.css";
 import ExcavatorStory from "../../components/ExcavatorStory.astro";
 import { project, bibtex, localPath } from "../../data/project";
 import { imageCredits } from "../../data/excavator";
-import ResearchNav from "../../components/ResearchNav.astro";
 import ImageViewer from "../../components/ImageViewer.astro";
 const awardUrl = "https://ascelibrary.org/jccee5/best_paper_awards";
 const title = "Robotic Excavator · Autonomy on Earth and Beyond";
@@ -24,7 +23,6 @@ const title = "Robotic Excavator · Autonomy on Earth and Beyond";
   </head>
   <body class="excavator-story">
     <a class="skip-link" href="#overview">Skip to overview</a>
-    <div class="excavator-topbar"><a class="site-wordmark" href="#overview">Robotic Excavator</a><nav class="desktop-section-links" aria-label="Page sections"><a href="#research">Research</a><a href="#method">Method</a><a href="#results">Results</a><a href="#applications">Applications</a><a href="#publications">Publications</a></nav><ResearchNav current="excavator" /></div>
     <main>
       <header id="overview" class="vision-hero">
         <img class="vision-image" src={localPath("images/earth-beyond/vision.webp")} alt="A full-size autonomous excavator on a dusty construction site at sunset; industry context photograph" width="2400" height="1600" fetchpriority="high" />
