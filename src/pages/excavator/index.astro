@@ -4,8 +4,7 @@ import "../../styles/global.css";
 import "../../styles/excavator-story.css";
 import ExcavatorStory from "../../components/ExcavatorStory.astro";
 import { project, bibtex, localPath } from "../../data/project";
-import { relatedPublications, imageCredits } from "../../data/excavator";
-import ResourceLink from "../../components/ResourceLink.astro";
+import { imageCredits } from "../../data/excavator";
 import ResearchNav from "../../components/ResearchNav.astro";
 import ImageViewer from "../../components/ImageViewer.astro";
 const awardUrl = "https://ascelibrary.org/jccee5/best_paper_awards";
@@ -25,21 +24,18 @@ const title = "Robotic Excavator · Autonomy on Earth and Beyond";
   </head>
   <body class="excavator-story">
     <a class="skip-link" href="#overview">Skip to overview</a>
-    <div class="excavator-topbar"><a class="site-wordmark" href="#overview">Robotic Excavator<span>Construction machine autonomy</span></a><nav class="desktop-section-links" aria-label="Page sections"><a href="#research">Research</a><a href="#method">Method</a><a href="#results">Results</a><a href="#applications">Applications</a><a href="#publications">Publications</a></nav><ResearchNav current="excavator" /></div>
+    <div class="excavator-topbar"><a class="site-wordmark" href="#overview">Robotic Excavator</a><nav class="desktop-section-links" aria-label="Page sections"><a href="#research">Research</a><a href="#method">Method</a><a href="#results">Results</a><a href="#applications">Applications</a><a href="#publications">Publications</a></nav><ResearchNav current="excavator" /></div>
     <main>
       <header id="overview" class="vision-hero">
         <img class="vision-image" src={localPath("images/earth-beyond/vision.webp")} alt="A full-size autonomous excavator on a dusty construction site at sunset; industry context photograph" width="2400" height="1600" fetchpriority="high" />
         <div class="vision-shade"></div>
-        <div class="vision-content frame"><p class="eyebrow">From teleoperation to automation</p><h1>Advancing Construction<br class="desktop-break" /> Machine Autonomy <br />on Earth and <em>Beyond.</em></h1><p class="vision-subtitle">Learning from people.<br />Building toward autonomous construction.</p></div>
-        <div class="hero-bottom frame"><span>Our vision / Earth → Space</span><a href="#media-credits">Industry photograph · Image credits ↗</a></div>
+        <div class="vision-content frame"><h1>Advancing Construction Machine Autonomy on Earth and Beyond.</h1></div>
+        <div class="hero-bottom frame"><a href="#media-credits">Industry photograph · Image credits ↗</a></div>
       </header>
-      <div class="award-band frame"><div><a class="award-label" href={awardUrl}><span aria-hidden="true">✳</span> 2024 Best Paper Award ↗</a><p>Journal of Computing in Civil Engineering · ASCE</p></div><div class="award-description">The research behind the vision:<br /><strong>learning excavation from operator demonstrations.</strong></div><div class="hero-links"><ResourceLink href={project.paper} icon="paper">Paper</ResourceLink><ResourceLink href="#citation" icon="citation">BibTeX</ResourceLink></div></div>
       <ExcavatorStory />
       <section id="publications" class="publications-section">
-        <div class="frame"><div class="publication-heading"><p class="eyebrow">06 / Publications &amp; related research</p><h2>Another brick<br /><em>in the wall.</em></h2><p>Learning to act, understanding a site, and working around people are complementary research problems.</p></div>
-          <article class="featured-paper"><div class="featured-meta"><a class="award-label" href={awardUrl}>✳ 2024 Best Paper Award ↗</a><span>This website’s featured research</span></div><h3><a href={project.paper}>{project.title}</a></h3><p class="publication-authors">{project.authors.join(" · ")}</p><p class="publication-venue">{project.venue} · 38(6), 04024031</p><p class="publication-contribution">Teleoperation demonstrations, selected keyframes, and visual goals for learning excavation trajectories.</p><div class="publication-links"><a href={project.paper}>Read paper ↗</a><a href="#citation">Cite this work ↓</a></div></article>
-          <div class="related-publications">{relatedPublications.map((paper) => <article class="publication-row"><div class="publication-topic"><span>{paper.year}</span>{paper.topic}</div><div><h3><a href={paper.href}>{paper.title}</a></h3><p class="publication-authors">{paper.authors}</p><p class="publication-venue">{paper.venue}</p><p class="publication-contribution">{paper.note}</p></div><a class="publication-arrow" href={paper.href} aria-label={`Read ${paper.title}`}>↗</a></article>)}</div>
-          <details class="technical-detail wider-reading"><summary>Further reading in autonomous construction <span aria-hidden="true">+</span></summary><p>Selected work from other groups, for context.</p><a href="https://doi.org/10.1126/scirobotics.abp9758">A framework for robotic excavation and dry stone construction using on-site materials</a><p>Johns et al. · Science Robotics, 2023 — from excavating terrain to placing irregular stones.</p><a href="https://arxiv.org/abs/2405.05861">ExACT: An End-to-End Autonomous Excavator System Using Action Chunking With Transformers</a><p>2024 preprint — learning excavator control directly from multimodal observations.</p></details>
+        <div class="frame"><h2>Publication</h2>
+          <article class="featured-paper"><div class="featured-meta"><a class="award-label" href={awardUrl}>✳ 2024 Best Paper Award ↗</a></div><h3><a href={project.paper}>{project.title}</a></h3><p class="publication-authors">{project.authors.join(" · ")}</p><p class="publication-venue">{project.venue} · 38(6), 04024031</p><p class="publication-contribution">Teleoperation demonstrations, selected keyframes, and visual goals for learning excavation trajectories.</p><div class="publication-links"><a href={project.paper}>Read paper ↗</a><a href="#citation">Cite this work ↓</a></div></article>
           <section id="citation" class="citation-section"><details class="technical-detail" id="citation-details"><summary>Cite the featured paper <span aria-hidden="true">+</span></summary><div class="citation-heading"><span>BibTeX</span><button type="button" id="copy-citation" hidden>Copy BibTeX</button></div><pre tabindex="0" aria-label="BibTeX citation"><code id="bibtex">{bibtex}</code></pre><p class="citation-status" id="citation-status" role="status" aria-live="polite"></p><p class="data-note">Data, models, and code are available from the corresponding author upon reasonable request. <a href={project.manuscript}>Author manuscript ↗</a></p></details></section>
         </div>
       </section>
@@ -64,11 +60,6 @@ const title = "Robotic Excavator · Autonomy on Earth and Beyond";
           tab.setAttribute("aria-selected", String(active)); tab.tabIndex = active ? 0 : -1;
           const panel = document.getElementById(tab.getAttribute("aria-controls") ?? "");
           if (!panel) return; panel.hidden = !active;
-          panel.querySelectorAll<HTMLIFrameElement>("iframe[data-embed-src]").forEach(frame => {
-            if (active) {
-              if (!frame.hasAttribute("src")) frame.src = frame.dataset.embedSrc!;
-            } else frame.removeAttribute("src");
-          });
           panel.querySelectorAll<HTMLVideoElement>("video").forEach(video => {
             if (!active) video.pause();
             else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) video.play().catch(() => {});

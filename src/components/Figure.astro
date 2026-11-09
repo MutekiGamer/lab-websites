@@ -1,16 +1,14 @@
 ---
-import { localPath, project } from "../data/project";
+import { localPath } from "../lib/paths";
 interface Props {
   file: string;
   alt: string;
   width: number;
   height: number;
-  paperFigure: number;
-  page: number;
   eager?: boolean;
   class?: string;
 }
-const { file, alt, width, height, paperFigure, page, eager = false, class: className } = Astro.props;
+const { file, alt, width, height, eager = false, class: className } = Astro.props;
 const src = localPath(`images/${file}`);
 ---
 <figure class:list={["research-figure", className]}>
@@ -20,6 +18,5 @@ const src = localPath(`images/${file}`);
   </a>
   <figcaption>
     <slot />
-    <a class="figure-source" href={`${project.manuscript}#page=${page}`}>Paper, Fig. {paperFigure}</a>
   </figcaption>
 </figure>

@@ -2,164 +2,105 @@
 import MotionFigure from "./MotionFigure.astro";
 import Figure from "./Figure.astro";
 import { localPath } from "../lib/paths";
-import { applications } from "../data/excavator";
 
 const dataChallenges = [
-  { file: "redundant-motion", title: "Redundant", text: "Repeated motion adds frames without adding a new lesson." },
-  { file: "irrelevant-motion", title: "Irrelevant", text: "Some movements do not contribute to the excavation task." },
-  { file: "failed-motion", title: "Failed", text: "An attempted motion may not complete the intended task." },
+  { file: "redundant-motion", label: "Redundant", title: "Repeated motions add little useful guidance.", text: "The recording grows without showing a new way to complete the task." },
+  { file: "irrelevant-motion", label: "Irrelevant", title: "Not every recorded motion contributes to the dig.", text: "Unrelated movements obscure the actions the robot needs to learn." },
+  { file: "failed-motion", label: "Failed", title: "An attempted motion can fail to complete the task.", text: "Successful demonstrations are still needed; selecting keyframes does not turn a failed attempt into one." },
 ];
 const experiments = [
   {
-    id: "contour", title: "With a specified terrain target.", setup: "specified terrain goal",
-    state: "Site contour map", goal: "Desired site contour map", action: "Robot trajectory",
-    file: "contour-map-goal", image: "specified-goal-results.png", width: 2834, height: 2158,
-    figure: "8a", alt: "Success-rate comparison with a manually specified goal; the full method outperforms the plotted baselines and the version without the primitive policy",
-    finding: "The full policy outperforms the compared baselines, including the version without the primitive policy. Learning the motions between subgoals matters.",
+    id: "contour", title: "Excavation with a specified terrain goal.", file: "contour-map-goal",
+    image: "specified-goal-results.png", width: 2834, height: 2158,
+    alt: "Simulation success-rate comparison with a specified terrain goal; the proposed method outperforms the compared methods",
+    finding: "In simulation, the full policy improves task success over the compared methods, including the version without the policy that learns motions between subgoals.",
   },
   {
-    id: "vision", title: "With a goal generated from vision.", setup: "generated visual goal",
-    state: "Calibrated visual observations", goal: "Generated latent goal", action: "Robot trajectory",
-    file: "visual-latent-goal", image: "visual-goal-results.png", width: 840, height: 642,
-    figure: "8b", alt: "Success-rate comparison using visual goals; the full method outperforms the plotted baselines and the version without action binding",
-    finding: "The visual model learns to generate the goal. Success is slightly lower than with a manually specified target, but the final goal no longer has to be set by hand.",
+    id: "vision", title: "Excavation with a goal learned from vision.", file: "visual-latent-goal",
+    image: "visual-goal-results.png", width: 840, height: 642,
+    alt: "Simulation success-rate comparison with a learned visual goal; the proposed method outperforms the compared methods",
+    finding: "The visual policy improves task success over the compared methods without requiring a manually specified final goal. Linking visual features to robot actions improves learning.",
   },
 ];
 ---
 
 <section id="research" class="research-section frame">
-  <div class="section-intro intro-grid">
-    <div><p class="eyebrow">01 / The starting point</p><h2>The robot digs<br /><em>under human control.</em></h2></div>
-    <div class="intro-copy"><p>Through teleoperation, an operator guides the robot’s digging motion. The system records robot states and visual observations as the task is performed.</p><p>These recordings become demonstrations for robot learning. Turning them into reliable autonomous behavior presents two challenges.</p></div>
-  </div>
+  <h2>The robot digs under human control.</h2>
   <div id="demonstrations" class="operator-demonstrations">
-    <MotionFigure file="operator-control" title="Human-controlled digging.">The operator guides the laboratory robot through teleoperation.</MotionFigure>
-    <MotionFigure file="teleoperation-testbed" title="Recorded demonstrations.">Robot states and visual observations are captured together during the task.</MotionFigure>
-  </div>
-  <ol class="learning-route" aria-label="From teleoperation to demonstrations">
-    <li><span>01</span><div><strong>Teleoperation</strong><p>The operator guides the task.</p></div><b aria-hidden="true">→</b></li>
-    <li><span>02</span><div><strong>Recorded demonstrations</strong><p>Motion and scene become training data.</p></div></li>
-  </ol>
-</section>
-
-<section id="data-challenge" class="data-challenge-section">
-  <div class="frame">
-    <div class="section-intro intro-grid">
-      <div><p class="eyebrow">Challenge A / Demonstration quality</p><h2>Human demonstrations<br /><em>are noisy and redundant.</em></h2></div>
-      <div class="intro-copy"><p>An operator may pause, repeat a movement, or make motions unrelated to the task. The recording captures all of them.</p><p>These extra frames increase the training burden and obscure the motions needed to complete a dig.</p></div>
-    </div>
-    <div class="challenge-clips">
-      {dataChallenges.map(item => <MotionFigure file={item.file} title={item.title}>{item.text}</MotionFigure>)}
-    </div>
-    <div class="challenge-takeaway"><span class="question-tag">Our research question</span><p>Which poses are essential to completing the task?</p></div>
-    <p class="research-note">The keyframe method below uses task-completing demonstrations. The failed attempt illustrates a data-quality challenge.</p>
+    <MotionFigure file="operator-control" title="Teleoperation.">An operator guides the laboratory robot through a digging task.</MotionFigure>
+    <MotionFigure file="teleoperation-testbed" title="Demonstration collection.">Robot states and visual observations are recorded together for learning.</MotionFigure>
   </div>
 </section>
 
-<section id="learning-challenge" class="learning-challenge-section frame">
-  <div class="section-intro intro-grid">
-    <div><p class="eyebrow">Challenge B / Reliable robot learning</p><h2>Learning a motion<br /><em>does not guarantee<br />reliable execution.</em></h2></div>
-    <div class="intro-copy"><p>A recorded motion alone does not connect the current scene, the task goal, and the actions needed to reach it.</p><p>Visual observations add complexity: redundant detail can slow learning, while compression can lose information needed for control.</p></div>
-  </div>
-  <div class="learning-observations">
-    <MotionFigure file="learning-challenge" title="Unreliable task execution.">The laboratory example illustrates the gap between moving the robot and completing a dig.</MotionFigure>
-    <figure class="challenge-figure observation-evidence">
-      <div class="observation-image"><img src={localPath("images/research/observed-site.png")} width="697" height="705" loading="lazy" alt="Unaligned point-cloud observation of the laboratory robot and sandbox, with fragmented geometry" /></div>
-      <figcaption><strong>Complex visual observations.</strong>A point cloud contains detail about both the robot and the site. The learning system must retain the information that matters for control.</figcaption>
-    </figure>
-  </div>
-  <div class="challenge-takeaway"><span class="question-tag">Our research question</span><p>How can visual states and task goals guide reliable robot action?</p></div>
-</section>
-
-<section id="method" class="method-section">
-  <div class="frame">
-    <div class="section-intro intro-grid">
-      <div><p class="eyebrow">03 / Our solution</p><h2>Keep the key poses.<br /><em>Learn the goal<br />and the motion.</em></h2></div>
-      <div class="intro-copy"><p>The framework brings the two challenges together: retain the essential poses, learn a visual state and goal, then train the actions that connect them.</p></div>
-    </div>
-    <div class="framework-modules">
-      <article><span class="module-number">01 / Keyframe modeling</span><h3>Keep the essential poses.</h3><p>Select keyframes from demonstrations to guide learning without retaining every recorded frame.</p><span class="module-answer">Addresses challenge A</span></article>
-      <article><span class="module-number">02 / Latent state &amp; goal</span><h3>Connect vision to action.</h3><p>Encode the scene compactly, bind its representation to robot actions, and learn a goal from demonstration outcomes.</p><span class="module-answer">Addresses challenge B: state and goal</span></article>
-      <article><span class="module-number">03 / Hierarchical learning</span><h3>Learn how to get there.</h3><p>A keyframe policy proposes subgoals. A primitive policy learns the actions that move the robot toward them.</p><span class="module-answer">Addresses challenge B: robot action</span></article>
-    </div>
-    <div class="framework-evidence">
-      <Figure file="method-framework.png" alt="Complete learning framework: keyframe identification and action-bound visual state and goal representations train a high-level subgoal policy and a low-level action policy" width={1430} height={629} paperFigure={1} page={12}>How the modules work together: demonstrations and scene observations guide subgoals, actions, and further learning.</Figure>
-    </div>
-    <div class="visual-method" id="visual-method">
-      <div class="visual-method-copy"><p class="eyebrow">Answering the learning question</p><h3>From visual observations<br />to a task goal.</h3><p>Align the scene with the robot’s working space, then encode it in a compact representation linked to robot actions. Initial and final observations from demonstrations train the goal-generation model.</p><a href="https://par.nsf.gov/servlets/purl/10533657#page=22">Visual representation and goal generation ↗</a></div>
-      <div class="visual-method-figures">
-        <figure class="challenge-figure"><div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point-cloud reconstruction aligned with the laboratory robot’s working space" /></div><figcaption><strong>Aligned observations.</strong>Calibration places the scene in a consistent spatial frame.</figcaption></figure>
-        <figure class="challenge-figure"><div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Current site contour from the research testbed" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Target site contour with an excavation depression" /><span>Target contour</span></div></div><figcaption><strong>State and goal.</strong>The contour views illustrate the current terrain and the intended outcome.</figcaption></figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="results" class="results-section">
-  <div class="frame">
-    <div class="section-intro intro-grid">
-      <div><p class="eyebrow">04 / Results</p><h2>Less redundant data.<br /><em>More successful<br />excavation.</em></h2></div>
-      <div class="intro-copy"><p>The studies show what the framework achieves: a smaller set of demonstration frames, higher task success than the compared methods, and better performance when visual features are linked to robot actions.</p></div>
-    </div>
-
-    <article class="result-block keyframe-proof" id="result-keyframes" aria-labelledby="keyframe-result-title">
-      <div class="keyframe-proof-copy">
-        <p class="eyebrow">01 / Demonstration quality</p>
-        <h3 id="keyframe-result-title">Essential poses,<br />fewer frames.</h3>
-        <div class="keyframe-stat"><strong>&gt;80<span>%</span></strong><div>of redundant frames removed</div></div>
-        <p>The keyframe extraction study reports a smaller set of frames for robot training while retaining essential trajectory information.</p>
-        <a href="https://par.nsf.gov/servlets/purl/10533657#page=32">Read the reported result ↗</a>
-      </div>
-      <div class="keyframe-media"><p class="figure-label">Trajectory with selected keyframes</p><Figure file="keyframe-extraction.png" alt="Original trajectory with the selected keyframes marked as red dots" width={1397} height={611} paperFigure={3} page={20}>The red points mark the selected keyframes.</Figure></div>
-    </article>
-
-    <article class="result-block" id="result-task-performance" aria-labelledby="task-result-title">
-      <div class="result-heading">
-        <p class="eyebrow">02 / Task performance</p>
-        <h3 id="task-result-title">Higher success on the excavation task.</h3>
-        <p class="result-summary">Across both goal settings in the simulation study, the proposed method achieved the highest success rate among the methods compared.</p>
-      </div>
-      <p class="scope-label">The laboratory clips show task execution. The success-rate curves summarize separate simulation trials.</p>
-      <div class="experiment-comparisons">
-        {experiments.map(experiment => <section class="experiment-case" id={`experiment-${experiment.id}`} aria-labelledby={`experiment-${experiment.id}-title`}>
-          <h4 id={`experiment-${experiment.id}-title`}>{experiment.title}</h4>
-          <p class="experiment-summary">{experiment.finding}</p>
-          <div class="experiment-media">
-            <div class="experiment-motion"><p class="media-label">Laboratory demonstration</p><MotionFigure file={experiment.file} title="The robot executes the excavation motion.">{experiment.id === "contour" ? "Guided by a desired site contour." : "Guided by a goal generated in the learned visual representation."}</MotionFigure></div>
-            <figure class="experiment-plot"><p class="media-label">Simulation comparison · Success rate over training</p><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption><span class="plot-key"><i aria-hidden="true"></i> Brown curve: full method</span><a href="https://par.nsf.gov/servlets/purl/10533657#page=28">Paper, Fig. {experiment.figure} ↗</a></figcaption></figure>
-          </div>
-          <details class="technical-detail experiment-setup">
-            <summary>Test setup: {experiment.setup}<span aria-hidden="true">+</span></summary>
-            <dl class="task-definition"><div><dt>State</dt><dd>{experiment.state}</dd></div><div><dt>Goal</dt><dd>{experiment.goal}</dd></div><div><dt>Action</dt><dd>{experiment.action}</dd></div></dl>
-          </details>
-        </section>)}
+<section id="challenges" class="challenges-section frame">
+  <h2>Challenges to autonomous excavation</h2>
+  <div class="challenge-columns">
+    <article id="data-challenge" class="challenge-column">
+      <h3>Data challenge</h3>
+      <div data-tabs>
+        <div class="challenge-tabs" role="tablist" aria-label="Demonstration quality examples">
+          {dataChallenges.map((item, i) => <button type="button" id={`${item.file}-tab`} role="tab" aria-controls={`example-${item.file}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{item.label}</button>)}
+        </div>
+        {dataChallenges.map((item, i) => <div id={`example-${item.file}`} role="tabpanel" aria-labelledby={`${item.file}-tab`} tabindex="0" hidden={i !== 0}>
+          <MotionFigure file={item.file} title={item.title}>{item.text}</MotionFigure>
+        </div>)}
       </div>
     </article>
-
-    <article class="result-block binding-evidence" id="result-visual-representation" aria-labelledby="binding-result-title">
-      <div><p class="eyebrow">03 / Visual representation</p><h3 id="binding-result-title">Linking vision to action<br />improves success.</h3></div>
-      <div class="binding-comparison" aria-label="Reported success: pure autoencoder 40 percent; action-bound representation over 60 percent"><div><strong>40%</strong><span>Pure autoencoder</span></div><span class="binding-arrow" aria-hidden="true">→</span><div><strong>&gt;60%</strong><span>Action-bound representation</span></div></div>
-      <p>The representation study reports this improvement in excavation success when visual features are bound to robot actions, compared with a pure autoencoder. <a href="https://par.nsf.gov/servlets/purl/10533657#page=33">Read the representation study ↗</a></p>
+    <div class="challenge-connection"><span aria-hidden="true">→</span><p>Poor demonstrations make reliable learning harder.</p></div>
+    <article id="learning-challenge" class="challenge-column">
+      <h3>Learning challenge</h3>
+      <div class="learning-context" aria-hidden="true"></div>
+      <MotionFigure file="learning-challenge" title="The robot moves, but does not reliably complete a dig.">Limited demonstrations and complex visual observations make it difficult to learn which actions will achieve the excavation goal.</MotionFigure>
     </article>
-    <p class="validation-boundary">Demonstrated in simulation and on laboratory robotic arms. Performance still depends on demonstration quality; unfamiliar site conditions remain a generalization challenge.</p>
   </div>
 </section>
+
+<section id="method" class="method-section frame">
+  <h2>Our solution learns from keyframes and visual goals.</h2>
+  <div class="framework-evidence">
+    <Figure file="method-framework.png" alt="Keyframe selection and action-bound visual representations guide a high-level subgoal policy and a low-level action policy" width={1430} height={629}>
+      <span class="framework-caption">Demonstrations and scene observations provide the training inputs; the learned policies generate robot actions.</span>
+    </Figure>
+  </div>
+  <div class="framework-modules">
+    <article><h3>Select useful demonstration frames.</h3><p>Keyframe selection reduces redundant data while retaining the poses that guide the task.</p></article>
+    <article><h3>Represent the scene and its goal.</h3><p>A compact visual representation preserves information relevant to robot actions and supports goal generation.</p></article>
+    <article><h3>Learn the actions between subgoals.</h3><p>A high-level policy proposes subgoals; a low-level policy learns how to reach them.</p></article>
+  </div>
+  <div class="visual-method-figures">
+    <figure class="challenge-figure"><div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point cloud aligned with the laboratory robot’s working space" /></div><figcaption><strong>Align observations with the robot.</strong>Calibration places the scene in the robot’s working coordinate frame before visual encoding.</figcaption></figure>
+    <figure class="challenge-figure"><div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Current terrain contour in the research testbed" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Desired terrain contour with an excavation depression" /><span>Target contour</span></div></div><figcaption><strong>Learn the intended change.</strong>Initial and final demonstration observations train goal generation. These contours illustrate the state–goal relationship.</figcaption></figure>
+  </div>
+</section>
+
+<section id="results" class="results-section frame">
+  <h2>The learned policy improves excavation success.</h2>
+  <div class="keyframe-proof" id="result-keyframes">
+    <Figure file="keyframe-extraction.png" alt="Selected keyframes marked as red points along a recorded robot trajectory" width={1397} height={611}><strong>Keyframes preserve the essential motion.</strong>The selected poses provide a more compact demonstration for training, with fewer redundant frames.</Figure>
+  </div>
+  <div class="experiment-comparisons" id="result-task-performance">
+    {experiments.map(experiment => <article class="experiment-case" id={`experiment-${experiment.id}`}>
+      <MotionFigure file={experiment.file} title={experiment.title}>{experiment.finding}</MotionFigure>
+      <details class="technical-detail simulation-evidence">
+        <summary>Simulation comparison <span aria-hidden="true">+</span></summary>
+        <figure class="experiment-plot"><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge simulation comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption>Brown curve: proposed method. These curves report simulation trials, separate from the laboratory clip above.</figcaption></figure>
+      </details>
+    </article>)}
+  </div>
+  <p class="validation-boundary">The videos show laboratory demonstrations; performance comparisons come from simulation. These results do not establish full-scale field performance.</p>
+</section>
+
 <section id="applications" class="applications-section frame">
-  <div class="section-intro"><p class="eyebrow">05 / Where this could lead</p><div class="intro-grid"><h2>One learned skill.<br /><em>A wider field of work.</em></h2><div class="intro-copy"><p>The contribution is a way to learn construction motions from people. Adapting that approach opens questions beyond a single dig.</p><p class="scope-label">Research directions · Each needs its own hardware, sensing, and validation.</p></div></div></div>
-  <div class="application-explorer" data-tabs>
-    <div class="application-tabs" role="tablist" aria-label="Potential applications">
-      {applications.map((app, i) => <button type="button" id={`application-${app.id}-tab`} role="tab" aria-controls={`application-${app.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}><span>{app.number}</span>{app.label}<span aria-hidden="true">↗</span></button>)}
+  <h2>Extending our research toward lunar excavation.</h2>
+  <div id="application-space" class="space-application">
+    <figure class="space-image">
+      <img src={localPath("images/earth-beyond/coldarm.webp")} width="1000" height="1500" loading="lazy" alt="NASA’s single articulated COLDArm with a titanium scoop above a lunar-regolith simulant test bed at JPL" />
+      <figcaption>NASA’s COLDArm in a terrestrial lunar-regolith test bed. Image: <a href="https://www.jpl.nasa.gov/images/pia25317-nasas-coldarm-at-lunar-regolith-simulant-test-bed/">NASA/JPL-Caltech</a>.</figcaption>
+    </figure>
+    <div class="space-copy">
+      <p>We aim to extend demonstration-based excavation learning to robotic arms working with lunar regolith, where communication delays make continuous remote control difficult.</p>
+      <p>This direction requires new demonstrations and validation under different soil behavior, gravity, lighting, and hardware constraints.</p>
+      <p>The COLDArm testbed illustrates a related single-arm excavation platform. It is external research, not a deployment of our method.</p>
     </div>
-    {applications.map((app, i) => <div id={`application-${app.id}`} class="application-panel" role="tabpanel" aria-labelledby={`application-${app.id}-tab`} tabindex="0" hidden={i !== 0}>
-      <figure class={`application-image application-image-${app.id}`}>
-        {app.videoEmbed ? <>
-          <div class="application-video"><iframe data-embed-src={app.videoEmbed} title={app.videoTitle} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-          <ol class="installation-actions" aria-label="Panel installation sequence"><li><span>01</span> Pick up</li><li><span>02</span> Align</li><li><span>03</span> Place</li></ol>
-        </> : <img src={localPath(`images/earth-beyond/${app.image}`)} alt={app.alt} width="1440" height="1080" loading="lazy" />}
-        <figcaption>{app.caption}{app.videoEmbed && <a class="video-fallback" href="https://vimeo.com/990768574#t=10s">Watch on Vimeo ↗</a>}</figcaption>
-      </figure>
-      <div class="application-copy"><p class="eyebrow">{app.number} / Potential extension</p><h3>{app.title}</h3><p>{app.text}</p><div class="next-test"><span>What it takes</span><p>{app.next}</p></div><a href={app.source}>{app.sourceLabel} ↗</a></div>
-    </div>)}
   </div>
-  <div class="field-note"><span class="eyebrow">From the testbed to the field</span><p>Full-scale deployment still needs machine calibration, richer demonstrations, integrated sensing, and supervised trials in changing site conditions.</p></div>
 </section>
