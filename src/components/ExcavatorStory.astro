@@ -6,7 +6,7 @@ import { localPath } from "../lib/paths";
 const dataChallenges = [
   { file: "redundant-motion", label: "Redundant", title: "Repeated motions add little useful guidance.", text: "The recording grows without showing a new way to complete the task." },
   { file: "irrelevant-motion", label: "Irrelevant", title: "Not every recorded motion contributes to the dig.", text: "Unrelated movements obscure the actions the robot needs to learn." },
-  { file: "failed-motion", label: "Failed", title: "An attempted motion can fail to complete the task.", text: "Successful demonstrations are still needed; selecting keyframes does not turn a failed attempt into one." },
+  { file: "failed-motion", label: "Failed", title: "An attempted motion can fail to complete the task.", text: "Incomplete attempts leave gaps in the demonstrated sequence of actions." },
 ];
 const experiments = [
   {
@@ -27,7 +27,7 @@ const experiments = [
 <section id="research" class="research-section frame">
   <h2>The robot digs under human control.</h2>
   <div id="demonstrations" class="operator-demonstrations">
-    <MotionFigure file="operator-control" title="Teleoperation.">An operator guides the laboratory robot through a digging task.</MotionFigure>
+    <MotionFigure file="operator-control" title="Teleoperation.">An operator guides the robot through a digging task.</MotionFigure>
     <MotionFigure file="teleoperation-testbed" title="Demonstration collection.">Robot states and visual observations are recorded together for learning.</MotionFigure>
   </div>
 </section>
@@ -68,8 +68,8 @@ const experiments = [
     <article><h3>Learn the actions between subgoals.</h3><p>A high-level policy proposes subgoals; a low-level policy learns how to reach them.</p></article>
   </div>
   <div class="visual-method-figures">
-    <figure class="challenge-figure"><div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point cloud aligned with the laboratory robot’s working space" /></div><figcaption><strong>Align observations with the robot.</strong>Calibration places the scene in the robot’s working coordinate frame before visual encoding.</figcaption></figure>
-    <figure class="challenge-figure"><div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Current terrain contour in the research testbed" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Desired terrain contour with an excavation depression" /><span>Target contour</span></div></div><figcaption><strong>Learn the intended change.</strong>Initial and final demonstration observations train goal generation. These contours illustrate the state–goal relationship.</figcaption></figure>
+    <figure class="challenge-figure"><div class="challenge-still"><img src={localPath("images/research/calibrated-site.png")} width="794" height="846" loading="lazy" alt="Calibrated point cloud aligned with the robot’s working space" /></div><figcaption><strong>Align observations with the robot.</strong>Calibration places the scene in the robot’s working coordinate frame before visual encoding.</figcaption></figure>
+    <figure class="challenge-figure"><div class="terrain-pair"><div><img src={localPath("images/research/site-contour.png")} width="1651" height="1697" loading="lazy" alt="Current terrain contour" /><span>Current site</span></div><span class="terrain-arrow" aria-hidden="true">→</span><div><img src={localPath("images/research/target-contour.png")} width="1263" height="1022" loading="lazy" alt="Desired terrain contour with an excavation depression" /><span>Target contour</span></div></div><figcaption><strong>Learn the intended change.</strong>Initial and final demonstration observations train goal generation. These contours illustrate the state–goal relationship.</figcaption></figure>
   </div>
 </section>
 
@@ -83,11 +83,10 @@ const experiments = [
       <MotionFigure file={experiment.file} title={experiment.title}>{experiment.finding}</MotionFigure>
       <details class="technical-detail simulation-evidence">
         <summary>Simulation comparison <span aria-hidden="true">+</span></summary>
-        <figure class="experiment-plot"><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge simulation comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption>Brown curve: proposed method. These curves report simulation trials, separate from the laboratory clip above.</figcaption></figure>
+        <figure class="experiment-plot"><a class="figure-link" data-zoom href={localPath(`images/research/${experiment.image}`)} aria-label={`Enlarge simulation comparison for ${experiment.id === "contour" ? "specified terrain goals" : "visual goals"}`}><img src={localPath(`images/research/${experiment.image}`)} width={experiment.width} height={experiment.height} loading="lazy" alt={experiment.alt} /><span class="enlarge-hint">↗ Enlarge</span></a><figcaption>Brown curve: proposed method.</figcaption></figure>
       </details>
     </article>)}
   </div>
-  <p class="validation-boundary">The videos show laboratory demonstrations; performance comparisons come from simulation. These results do not establish full-scale field performance.</p>
 </section>
 
 <section id="applications" class="applications-section frame">
@@ -95,12 +94,10 @@ const experiments = [
   <div id="application-space" class="space-application">
     <figure class="space-image">
       <img src={localPath("images/earth-beyond/jaxa-lunar-excavation.jpg")} width="5472" height="3648" loading="lazy" alt="A real JAXA lunar-rover research prototype with four tracked units, a single articulated digging arm, and a bucket in a simulated lunar terrain test facility" />
-      <figcaption>A single-arm excavation prototype in a ground test for lunar construction. Courtesy of <a href="https://www.ihub-tansa.jaxa.jp/topics/yanmar.html">JAXA</a>.</figcaption>
+      <figcaption>JAXA–Yanmar single-arm excavation research, ground experiment, 2023. Courtesy of <a href="https://www.ihub-tansa.jaxa.jp/topics/yanmar.html">JAXA</a>.</figcaption>
     </figure>
     <div class="space-copy">
       <p>We aim to extend demonstration-based excavation learning to robotic arms working with lunar regolith, where communication delays make continuous remote control difficult.</p>
-      <p>This direction requires new demonstrations and validation under different soil behavior, gravity, lighting, and hardware constraints.</p>
-      <p>The photograph shows JAXA’s lunar-rover research model testing an excavation arm developed with Yanmar. It illustrates the application setting; it is not a deployment of our method.</p>
     </div>
   </div>
 </section>

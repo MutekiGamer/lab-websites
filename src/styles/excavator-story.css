@@ -70,7 +70,6 @@
 .experiment-plot .figure-link { background:#fff; padding:12px; }
 .experiment-plot img { width:100%; height:auto; }
 .excavator-story .experiment-plot figcaption { text-align:left; max-width:none; }
-.excavator-story .validation-boundary { color:var(--muted); margin:30px 0 0; max-width:850px; }
 .space-application { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); align-items:center; gap:5%; }
 .space-image { margin:0; min-width:0; }
 .space-image img { display:block; width:100%; height:auto; max-height:650px; object-fit:contain; background:#e6e5df; }
