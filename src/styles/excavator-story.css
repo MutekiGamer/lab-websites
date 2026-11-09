@@ -1,10 +1,10 @@
-/* Excavator has exactly two type sizes. Hierarchy comes from spacing and weight. */
+/* Two content type sizes, with a smaller hero photo credit. */
 .excavator-story {
   --ink:#33372f; --muted:#656a60; --line:#cecec3; --paper:#eeece6; --link:#394b36;
   --text-size:16px; --heading-size:40px;
   background:var(--paper); color:var(--ink); line-height:1.65;
 }
-/* Shared navigation, captions and dialogs must follow the same two-size rule. */
+/* Captions and dialogs use the body size; only the hero credit is smaller. */
 .excavator-story, .excavator-story * { font-size:var(--text-size)!important; }
 .excavator-story :is(h1,h2), .excavator-story :is(h1,h2) * { font-size:var(--heading-size)!important; }
 .excavator-story [hidden] { display:none!important; }
@@ -21,8 +21,9 @@
 .vision-shade { position:absolute; inset:0; z-index:-2; background:linear-gradient(90deg,rgba(21,27,22,.76),rgba(21,27,22,.4) 55%,rgba(21,27,22,.08)),linear-gradient(0deg,rgba(21,27,22,.45),transparent 25%); }
 .excavator-story .vision-content { color:#f5f3ed; padding-block:80px; }
 .excavator-story .vision-content h1 { max-width:660px; margin:0; line-height:1.22; }
-.excavator-story .hero-bottom { position:absolute; bottom:24px; left:0; right:0; display:flex; justify-content:flex-end; }
-.hero-bottom a { color:#f5f3ed!important; text-decoration:none; }
+.excavator-story .hero-bottom { position:absolute; bottom:12px; right:16px; max-width:calc(100% - 32px); text-align:right; line-height:1.4; }
+.excavator-story .hero-bottom a { font-size:12px!important; color:rgba(245,243,237,.8)!important; text-decoration:none; }
+.excavator-story .hero-bottom a:is(:hover,:focus-visible) { color:#fff!important; text-decoration:underline; }
 .excavator-story main > section, .excavator-story .research-section { padding-block:80px; }
 .excavator-story main > section + section { border-top:1px solid var(--line); }
 .operator-demonstrations, .experiment-comparisons { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:36px; }
@@ -70,7 +71,7 @@
 .experiment-plot img { width:100%; height:auto; }
 .excavator-story .experiment-plot figcaption { text-align:left; max-width:none; }
 .excavator-story .validation-boundary { color:var(--muted); margin:30px 0 0; max-width:850px; }
-.space-application { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:8%; }
+.space-application { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); align-items:center; gap:5%; }
 .space-image { margin:0; min-width:0; }
 .space-image img { display:block; width:100%; height:auto; max-height:650px; object-fit:contain; background:#e6e5df; }
 .space-image figcaption { max-width:none; text-align:left; }
@@ -105,7 +106,6 @@
   .vision-hero { min-height:480px; height:80svh; max-height:680px; }
   .vision-image { object-position:65% 55%; }
   .excavator-story .vision-content { padding-block:60px 100px; }
-  .excavator-story .hero-bottom { bottom:20px; justify-content:flex-start; }
   .excavator-story main > section, .excavator-story .research-section { padding-block:56px; }
   .excavator-story h2 { margin-bottom:28px; }
   .operator-demonstrations,.experiment-comparisons,.framework-modules,.visual-method-figures,.space-application,.challenge-columns { grid-template-columns:minmax(0,1fr); gap:30px; }
