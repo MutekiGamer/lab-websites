@@ -1,0 +1,48 @@
+{
+  "reviewedAt": "2026-11-11",
+  "scope": "Remove six unused externally sourced images; clarify JAXA terms; prepare one replacement without changing the displayed image. Team paper figures excluded at the owner's request.",
+  "removedFromDeployment": [
+    "public/images/earth-beyond/dozer.webp",
+    "public/images/earth-beyond/utilities.webp",
+    "public/images/earth-beyond/ipex.webp",
+    "public/images/earth-beyond/coldarm.webp",
+    "public/images/story/subsurface.jpg",
+    "public/images/story/bim-projection.png"
+  ],
+  "historyNote": "Removed from the current source tree and deployment. Earlier Git commits still contain the files; no Git history was rewritten.",
+  "jaxa": {
+    "imageSource": "https://www.ihub-tansa.jaxa.jp/topics/yanmar.html",
+    "originalImage": "https://www.ihub-tansa.jaxa.jp/topics/img/yanmar/actuator_1.JPG",
+    "currentPage": "https://mutekigamer.github.io/lab-websites/excavator/#applications",
+    "currentUse": "An external ground-test example illustrating a possible extension of the team's excavation research to lunar regolith. Public, informational research portfolio; image is unchanged, proportionally displayed and credited to JAXA.",
+    "primaryPolicy": "https://jda.jaxa.jp/service.php",
+    "additionalPolicies": [
+      "https://www.jaxa.jp/policy_j.html",
+      "https://global.jaxa.jp/policy.html"
+    ],
+    "confirmedRules": [
+      "Academic research and school education/learning, including papers and academic presentations, are listed as free uses that do not require an application, subject to conditions.",
+      "Some nonprofit uses by public institutions and NPO/NGO bodies are separately listed as free but requiring application. Private use does not include posting to personal websites or social accounts.",
+      "The materials service explicitly covers JAXA website images outside the archive. Attribution, image-specific notices, third-party rights and non-endorsement conditions still apply.",
+      "JAXA instructs users to contact its archive when the application category is unclear. Permission, when required, is communicated by email after review; review may take approximately five business days."
+    ],
+    "assessment": "The current public research-outreach page is not expressly classified by the policy. Research context supports the academic-use category, while the outreach/portfolio purpose overlaps with institution publicity. Do not treat it as confirmed permission-free reuse, and do not equate Courtesy of JAXA with individual authorization.",
+    "status": "Current-use exemption not conclusively confirmed; no individual JAXA permission obtained. Request classification/permission before relying on an exemption.",
+    "contactForm": "https://jda.jaxa.jp/spiral_input.html",
+    "outreach": "No inquiry or application has been sent."
+  },
+  "replacement": {
+    "file": "docs/media-alternatives/nasa-apex-excavator.jpg",
+    "title": "NASA Advanced Planetary Excavator (APEX)",
+    "source": "https://www.nasa.gov/centers-and-facilities/glenn/planetary-exploration-test-facilities/",
+    "originalImage": "https://www.nasa.gov/wp-content/uploads/2024/12/excavation-01.jpg",
+    "credit": "NASA / Glenn Research Center",
+    "usagePolicy": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "permissionBasis": "NASA media guidelines expressly permit educational/informational web-page use of NASA content without explicit permission, with source acknowledgement and without implied endorsement. The source article identifies this as NASA Glenn's APEX facility and shows no separate third-party copyright notice for this photograph.",
+    "visualReview": "Real, single backhoe-style arm, bucket and pedestal visible. No recognizable people. Fixed ground-test installation, not a wheeled/tracked rover and not a photograph taken on the Moon.",
+    "suggestedCaption": "NASA's Advanced Planetary Excavator (APEX) for lunar-regolith excavation research. Image: NASA / Glenn Research Center.",
+    "status": "Prepared as a replacement candidate; not referenced by the live website.",
+    "transformation": "None. Original JPEG retained.",
+    "sha256": "8d01ec16a2c5a4cdc609ac2b126adc88e749a02c9bba9b6a68849cfddf9dec54"
+  }
+}
