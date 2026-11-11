@@ -32,17 +32,26 @@
     "outreach": "No inquiry or application has been sent."
   },
   "replacement": {
-    "file": "docs/media-alternatives/nasa-apex-excavator.jpg",
-    "title": "NASA Advanced Planetary Excavator (APEX)",
-    "source": "https://www.nasa.gov/centers-and-facilities/glenn/planetary-exploration-test-facilities/",
-    "originalImage": "https://www.nasa.gov/wp-content/uploads/2024/12/excavation-01.jpg",
-    "credit": "NASA / Glenn Research Center",
-    "usagePolicy": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
-    "permissionBasis": "NASA media guidelines expressly permit educational/informational web-page use of NASA content without explicit permission, with source acknowledgement and without implied endorsement. The source article identifies this as NASA Glenn's APEX facility and shows no separate third-party copyright notice for this photograph.",
-    "visualReview": "Real, single backhoe-style arm, bucket and pedestal visible. No recognizable people. Fixed ground-test installation, not a wheeled/tracked rover and not a photograph taken on the Moon.",
-    "suggestedCaption": "NASA's Advanced Planetary Excavator (APEX) for lunar-regolith excavation research. Image: NASA / Glenn Research Center.",
+    "file": "docs/media-alternatives/lunar-excavator-concept.webp",
+    "title": "Single-arm excavator constructing a lunar blast shield — research concept illustration",
+    "paper": "Autonomous construction of lunar infrastructure with in-situ boulders",
+    "authors": ["Jonas Walther", "Ryan Luke Johns", "Hendrik Kolvenbach", "Valentin Tertius Bickel", "Marco Hutter"],
+    "publishedAt": "2024-06-06",
+    "doi": "10.3389/frspt.2024.1345337",
+    "source": "https://www.frontiersin.org/journals/space-technologies/articles/10.3389/frspt.2024.1345337/full",
+    "sourceFigure": "Figure 1",
+    "originalImage": "https://www.frontiersin.org/files/Articles/1345337/xml-images/frspt-05-1345337-g001.webp",
+    "credit": "© 2024 Walther, Johns, Kolvenbach, Bickel and Hutter. Frontiers in Space Technologies, doi:10.3389/frspt.2024.1345337. CC BY 4.0. Background photo: NASA; processing/scanning: Kipp Teague and NASA Johnson, AS17-141–21610 (edited in the original illustration).",
+    "license": "CC BY 4.0",
+    "usagePolicy": "https://creativecommons.org/licenses/by/4.0/",
+    "repositoryLicenseRecord": "https://www.research-collection.ethz.ch/entities/publication/5cd52921-7e43-4939-8b19-3d1348c383d7",
+    "permissionBasis": "The publisher explicitly licenses this article under CC BY 4.0, permitting redistribution with author/copyright attribution, citation of the original publication and a license link. Figure 1 has no separate restrictive license notice. Preserve the figure's additional NASA / Kipp Teague / NASA Johnson background credits. NASA permits educational/informational reuse of its imagery with acknowledgement and without implied endorsement.",
+    "backgroundUsagePolicy": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "visualReview": "Concept illustration of a recognizable single-arm walking excavator on the lunar surface, using a gripper to place boulders into a blast shield. Actual Apollo lunar landscape forms the background. Illustrates rock placement, rather than bucket excavation; does not depict this team's machine or a completed lunar deployment.",
+    "suggestedCaption": "A single-arm excavator building a protective wall from lunar boulders — a construction concept by Walther et al. (2024).",
     "status": "Prepared as a replacement candidate; not referenced by the live website.",
-    "transformation": "None. Original JPEG retained.",
-    "sha256": "8d01ec16a2c5a4cdc609ac2b126adc88e749a02c9bba9b6a68849cfddf9dec54"
+    "transformation": "None by us. Original publisher WebP retained at 937 × 656; the original authors composited the excavator illustration with an edited lunar photograph.",
+    "replaces": "NASA APEX ground-test photograph, rejected because the user requires a scene on the Moon.",
+    "sha256": "37b8014ab9f655742ee3a64540df69c7190b533de0ae92861a8a6dd1482c6755"
   }
 }
